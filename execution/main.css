@@ -1,0 +1,293 @@
+/* =============================================================================
+   ANTIGRAVITY - Main Styles (Geometric Mode)
+   ============================================================================= */
+
+:root {
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+body.antigravity-mode {
+    background-color: var(--bg-main);
+    color: var(--content-high);
+}
+
+/* -----------------------------------------------------------------------------
+   Header & Navigation
+   ----------------------------------------------------------------------------- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: var(--z-sticky);
+    padding: var(--space-4);
+    transition: background var(--duration-normal);
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.logo-box {
+    width: 44px;
+    height: 44px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-icon {
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.5px;
+}
+
+.logo-text {
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    font-size: var(--text-base);
+    color: var(--content-high);
+}
+
+.menu-box {
+    width: 44px;
+    height: 44px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.menu-icon {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.5px;
+}
+
+/* -----------------------------------------------------------------------------
+   Hero & Parallax
+   ----------------------------------------------------------------------------- */
+.hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+.parallax-container {
+    perspective: 1px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.parallax-bg {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-below);
+}
+
+.hero-image {
+    width: 100%;
+    height: 120%;
+    /* Height buffer for parallax */
+    object-fit: cover;
+    will-change: transform;
+    /* Fluid performance optimization */
+}
+
+.hero-mask {
+    position: absolute;
+    inset: 0;
+    /* Etereal Bottom Fade (Google Stitch Refinement) */
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: var(--z-base);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 20vh;
+}
+
+.rule {
+    width: 80px;
+    height: 4px;
+    background: #fff;
+    margin-bottom: var(--space-6);
+}
+
+.hero h1 {
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: var(--space-4);
+}
+
+.hero-subtext {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--text-base);
+    max-width: 30ch;
+}
+
+/* -----------------------------------------------------------------------------
+   Buttons (Squared Style - Google Stitch Refined)
+   ----------------------------------------------------------------------------- */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px !important;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    padding: 1rem 2rem;
+    background-color: var(--color-primary-dark);
+    color: #ffffff;
+    border: none;
+    transition: transform 0.2s var(--ease-default), background 0.2s var(--ease-default);
+    font-size: var(--text-sm);
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    /* Effetto lifting sottile */
+    background-color: #000;
+    /* Contrast boost on hover */
+}
+
+.btn-outline {
+    border: 1px solid #000;
+    color: #000;
+    border-radius: 0px;
+    padding: 1rem 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.btn-outline:hover {
+    background: #000;
+    color: #fff;
+}
+
+/* -----------------------------------------------------------------------------
+   Search Box (Antigravity Placement)
+   ----------------------------------------------------------------------------- */
+.hero-search-container {
+    position: absolute;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    z-index: var(--z-raised);
+}
+
+.search-box {
+    background: #fff;
+    border: 1px solid #000;
+    padding: var(--space-6);
+}
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-bottom: var(--space-4);
+    border-bottom: 1.5px solid #eee;
+    margin-bottom: var(--space-4);
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.5px;
+    color: #000;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: var(--text-sm);
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.search-input::placeholder {
+    color: #bbb;
+}
+
+/* -----------------------------------------------------------------------------
+   Bottom Nav
+   ----------------------------------------------------------------------------- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: var(--space-4) var(--space-8);
+    z-index: var(--z-sticky);
+}
+
+.bottom-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-item {
+    color: #bbb;
+    transition: color var(--duration-fast);
+}
+
+.nav-item.active {
+    color: #000;
+}
+
+.nav-item i {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.5px;
+}
+
+/* -----------------------------------------------------------------------------
+   Desktop Refinement
+   ----------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+    .hero h1 {
+        font-size: var(--text-5xl);
+    }
+
+    .hero-search-container {
+        max-width: 600px;
+    }
+}
+
+.content-spacer {
+    height: 100vh;
+    background: #fff;
+}

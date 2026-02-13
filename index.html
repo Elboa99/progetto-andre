@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANTIGRAVITY | Luxury Real Estate</title>
+
+    <!-- Design System & Main Styles -->
+    <link rel="stylesheet" href="execution/design-system.css">
+    <link rel="stylesheet" href="execution/main.css">
+
+    <!-- Geometric Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="antigravity-mode">
+
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="header-inner container-fluid">
+            <div class="logo-group">
+                <div class="logo-box">
+                    <i data-lucide="compass" class="logo-icon"></i>
+                </div>
+                <span class="logo-text">ANTIGRAVITY</span>
+            </div>
+            <button class="menu-box">
+                <i data-lucide="menu" class="menu-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero parallax-container">
+            <div class="hero-bg parallax-bg">
+                <img src="Contenuti Brand Sito/swisstransfer 2/Foto copertina  senza logo.png"
+                    alt="Architectural Masterpiece" class="hero-image">
+                <div class="hero-mask"></div>
+            </div>
+
+            <div class="container hero-content">
+                <div class="hero-text-wrapper" style="margin-bottom: 12vh;">
+                    <div class="rule animate-slide-in"></div>
+                    <h1 class="animate-fade-in-up delay-1">ELEVATE <br>YOUR LIVING</h1>
+                    <p class="hero-subtext animate-fade-in-up delay-2">Architectural masterpieces curated for the modern
+                        minimalist.</p>
+                </div>
+            </div>
+
+            <!-- Floating Search Bar -->
+            <div class="hero-search-container mobile-fixed-search">
+                <div class="search-box">
+                    <div class="search-input-group">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" placeholder="LOCATION / STYLE" class="search-input">
+                    </div>
+                    <button class="btn btn-primary search-btn">SEARCH PROPERTIES</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dummy section to test parallax and white fade -->
+        <section class="content-spacer"></section>
+    </main>
+
+    <!-- Bottom Navigation (Mobile View from Screenshot) -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-inner flex-between">
+            <a href="#" class="nav-item active"><i data-lucide="layout-grid"></i></a>
+            <a href="#" class="nav-item"><i data-lucide="heart"></i></a>
+            <a href="#" class="nav-item"><i data-lucide="send"></i></a>
+            <a href="#" class="nav-item"><i data-lucide="user"></i></a>
+        </div>
+    </nav>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Smooth Parallax Implementation
+        window.addEventListener('scroll', () => {
+            const parallax = document.querySelector('.parallax-bg');
+            const scroll = window.pageYOffset;
+            parallax.style.transform = `translateY(${scroll * 0.4}px)`;
+
+            // Navbar behavior if needed
+            const header = document.querySelector('.header');
+            if (scroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>
