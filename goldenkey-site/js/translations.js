@@ -1,5 +1,6 @@
 /**
  * Golden Key - Translation Dictionary
+ * Refined for a professional, high-end luxury brand experience.
  */
 const translations = {
     it: {
@@ -84,6 +85,10 @@ const translations = {
         "form-placeholder-message": "Parlaci del tuo immobile...",
         "form-consent": "Ho letto e accetto la <a href=\"privacy.html\" target=\"_blank\">Privacy Policy</a>. Acconsento al trattamento dei miei dati personali.",
         "form-submit": "Invia Richiesta",
+        "form-error-consent": "Per favore, accetta la Privacy Policy prima di inviare il modulo.",
+        "form-btn-loading": "Invio in corso...",
+        "form-success": "✓ Richiesta inviata con successo! Ti contatteremo al più presto.",
+        "form-error-generic": "Si è verificato un errore. Riprova più tardi o contattaci direttamente.",
 
         // Footer
         "footer-cta": "Pronto a Iniziare? <br><span class=\"text-accent\">Contattaci.</span>",
@@ -91,11 +96,24 @@ const translations = {
         "footer-ai": "Alcune immagini presenti su questo sito sono state generate tramite intelligenza artificiale per scopi puramente illustrativi.",
         "footer-privacy": "Privacy Policy",
         "footer-cookie": "Cookie Policy",
+        "footer-manage-cookie": "Gestisci Cookie",
 
         // Cookie Banner
-        "cookie-text": "Questo sito utilizza cookie tecnici per garantire il corretto funzionamento. Per saperne di più, consulta la nostra <a href=\"cookie-policy.html\">Cookie Policy</a>.",
-        "cookie-reject": "Rifiuta",
-        "cookie-accept": "Accetta",
+        "cookie-text": "Questo sito utilizza cookie tecnici per garantire il corretto funzionamento. Consulta la nostra <a href=\"cookie-policy.html\">Cookie Policy</a>.",
+        "cookie-manage": "Gestisci Preferenze",
+        "cookie-reject": "Rifiuta Tutto",
+        "cookie-accept": "Accetta Tutto",
+        "cookie-pref-title": "Preferenze Cookies",
+        "cookie-tech-title": "Cookie Tecnici",
+        "cookie-tech-text": "Essenziali per il funzionamento del sito. Non possono essere disattivati.",
+        "cookie-ana-title": "Cookie Analitici",
+        "cookie-ana-text": "Ci aiutano a capire come i visitatori interagiscono con il sito.",
+        "cookie-mark-title": "Cookie di Marketing",
+        "cookie-mark-text": "Utilizzati per mostrarti pubblicità e contenuti pertinenti.",
+        "cookie-save": "Salva e Applica",
+
+        // Actions
+        "show-more": "Mostra altro",
 
         // Landing Specific
         "landing-hero-title": "Siamo la soluzione <span class=\"text-accent\">Anti-Morosità</span> per la tua Proprietà",
@@ -108,14 +126,13 @@ const translations = {
         "landing-why-2-text": "Protezione totale contro danni e morosità.",
         "landing-why-3-title": "Gestione Passiva",
         "landing-why-3-text": "Pensiamo noi a tutto, tu ricevi solo i bonifici.",
-        "landing-form-submit": "VOGLIO LA MIA STIMA GRATUITA",
-        "show-more": "Mostra altro"
+        "landing-form-submit": "VOGLIO LA MIA STIMA GRATUITA"
     },
     en: {
         // Navbar
         "nav-home": "Home",
         "nav-portfolio": "Portfolio",
-        "nav-why-us": "Benefits",
+        "nav-why-us": "Why Golden Key",
         "nav-services": "Services",
         "nav-contact": "Contact Us",
 
@@ -124,101 +141,117 @@ const translations = {
         "hero-title-2": "YOUR",
         "hero-title-3": "PROPERTY",
         "hero-title-4": "INTO",
-        "hero-title-5": "REVENUE",
-        "hero-title-6": "GENERATOR",
-        "hero-subtitle": "Professional management of luxury properties for short-term rentals.",
+        "hero-title-5": "ELITE",
+        "hero-title-6": "REVENUE",
+        "hero-subtitle": "Professional management of luxury properties for high-yield short-term rentals.",
         "hero-accent": "Zero fixed costs.",
-        "hero-footer": "More income, fewer worries!",
-        "hero-cta": "Request a Free Estimate",
+        "hero-footer": "Maximize returns, minimize concerns.",
+        "hero-cta": "Get a Complimentary Estimate",
         "hero-num": "[01]",
 
         // Social Proof
         "sp-num": "[02]",
         "sp-title": "PROVEN <br>EXCELLENCE",
-        "sp-counter-label": "Properties Managed in Italy and Abroad",
-        "sp-description": "Our curated selection of properties reflects our commitment to quality and consistent returns.",
+        "sp-counter-label": "Premier Properties Managed Internationally",
+        "sp-description": "Our curated selection of high-end properties reflects our commitment to superior quality and consistent investor returns.",
         "sp-reviews-title": "WHAT OUR GUESTS SAY",
 
         // Why Us
         "why-num": "[03]",
         "why-title": "WHY CHOOSE <br>GOLDEN KEY?",
-        "why-card-1-title": "Increase Your Earnings",
-        "why-card-1-text": "We enhance your property to allow you to earn up to 3 times more than traditional leasing.",
-        "why-card-2-title": "No More Leasing Problems",
-        "why-card-2-text": "Forget arrears, damages, or infinite bureaucracy. We handle everything, with total protection via OTA.",
+        "why-card-1-title": "Maximize Your Returns",
+        "why-card-1-text": "We elevate your property's value, enabling returns up to 3 times higher than traditional long-term leasing.",
+        "why-card-2-title": "Hassle-Free Hosting",
+        "why-card-2-text": "Leave the operational burdens to us. We handle everything from compliance to maintenance, fully insured.",
         "why-card-3-title": "Total Flexibility",
-        "why-card-3-text": "No long-term commitments and zero upfront costs. Your property remains at your disposal when you need it.",
+        "why-card-3-text": "No long-term commitments and zero upfront costs. Your property remains fully available whenever you need it.",
         "price-label": "STARTUP AND MANAGEMENT COST:",
 
         // Mid CTA
         "cta-mid-title": "GET A PROFITABILITY <br>ESTIMATE",
-        "cta-mid-text": "Find out how much your property can earn on the luxury market.",
+        "cta-mid-text": "Discover the true earning potential of your property in the luxury market.",
         "cta-mid-btn": "Calculate Your Profit",
 
         // Services
         "services-num": "[05]",
         "services-title": "OUR SERVICES",
-        "service-1-title": "Analysis and Bureaucracy",
-        "service-1-text": "Feasibility study and management of all administrative procedures.",
-        "service-2-title": "Home Staging",
-        "service-2-text": "Professional setup to maximize the property's attractiveness.",
-        "service-3-title": "Photography Service",
-        "service-3-text": "Author's shooting to highlight every detail of your property.",
-        "service-4-title": "Add Management",
-        "service-4-text": "Copywriting and multi-channel marketing on all major platforms.",
-        "service-5-title": "Insurance",
-        "service-5-text": "Total protection against damages and arrears through OTA partnerships.",
-        "service-6-title": "Check-in / Out",
-        "service-6-text": "Warm welcome and professional management of every guest.",
-        "service-7-title": "Cleaning and Maintenance",
-        "service-7-text": "5-star hotel hygiene standards and scheduled maintenance.",
-        "service-8-title": "Professional Websites",
-        "service-8-text": "Custom-built websites to enhance your business and generate qualified leads.",
+        "service-1-title": "Consultancy & Compliance",
+        "service-1-text": "Comprehensive feasibility studies and complete administrative management.",
+        "service-2-title": "Bespoke Home Staging",
+        "service-2-text": "Professional interior styling to maximize property appeal and daily rates.",
+        "service-3-title": "Architectural Photography",
+        "service-3-text": "High-end editorial shooting to highlight every detail of your luxury residence.",
+        "service-4-title": "Marketing & Distribution",
+        "service-4-text": "Premium copywriting and multi-channel marketing across elite global platforms.",
+        "service-5-title": "Comprehensive Insurance",
+        "service-5-text": "Total protection against damages and defaults through premium OTA partnerships.",
+        "service-6-title": "Concierge Check-in/out",
+        "service-6-text": "A warm, five-star welcome and professional management for every guest.",
+        "service-7-title": "Premium Maintenance",
+        "service-7-text": "Hotel-standard hygiene and proactive maintenance for peak property condition.",
+        "service-8-title": "Boutique Web Solutions",
+        "service-8-text": "Custom digital experiences designed to elevate your brand and capture exclusive leads.",
 
         // Contact
         "contact-num": "[06]",
-        "contact-title": "REQUEST A <br>PROFITABILITY ESTIMATE",
-        "contact-check-1": "Enhance your property in total control",
-        "contact-check-2": "Prevent payment defaults",
-        "contact-check-3": "Operate insured",
-        "contact-check-4": "Significantly increase your profits",
+        "contact-title": "REQUEST YOUR <br>EXPERT ESTIMATE",
+        "contact-check-1": "Full control over your property's value",
+        "contact-check-2": "Zero-risk payment defaults",
+        "contact-check-3": "Fully insured operations",
+        "contact-check-4": "Significant increase in profitability",
         "contact-check-5": "Complete stress-free management",
         "form-label-name": "Full Name",
         "form-placeholder-name": "Enter your name",
-        "form-label-email": "Email",
+        "form-label-email": "Email Address",
         "form-placeholder-email": "email@example.com",
-        "form-label-phone": "Phone",
+        "form-label-phone": "Phone Number",
         "form-placeholder-phone": "+1 000 000 0000",
         "form-label-message": "Message",
-        "form-placeholder-message": "Tell us about your property...",
-        "form-consent": "I have read and accept the <a href=\"privacy.html\" target=\"_blank\">Privacy Policy</a>. I consent to the processing of my personal data.",
+        "form-placeholder-message": "Tell us more about your property...",
+        "form-consent": "I have read and accept the <a href=\"privacy.html\" target=\"_blank\">Privacy Policy</a>. I consent to the processing of personal data.",
         "form-submit": "Send Request",
+        "form-error-consent": "Please accept the Privacy Policy before submitting the form.",
+        "form-btn-loading": "Sending...",
+        "form-success": "✓ Request submitted successfully! We will contact you shortly.",
+        "form-error-generic": "An error occurred. Please try again later or contact us directly.",
 
         // Footer
-        "footer-cta": "Ready to Start? <br><span class=\"text-accent\">Contact us.</span>",
+        "footer-cta": "Ready to Start? <br><span class=\"text-accent\">Connect with us.</span>",
         "footer-copyright": "VAT: 04107000129 &mdash; &copy; 2025 Golden Key Luxury Short Rent. All rights reserved.",
         "footer-ai": "Some images on this site were generated via artificial intelligence for purely illustrative purposes.",
         "footer-privacy": "Privacy Policy",
         "footer-cookie": "Cookie Policy",
+        "footer-manage-cookie": "Cookie Settings",
 
         // Cookie Banner
-        "cookie-text": "This site uses technical cookies to ensure core functionality. To learn more, see our <a href=\"cookie-policy.html\">Cookie Policy</a>.",
-        "cookie-reject": "Reject",
-        "cookie-accept": "Accept",
+        "cookie-text": "This site uses essential cookies to ensure peak performance. View our <a href=\"cookie-policy.html\">Cookie Policy</a> for details.",
+        "cookie-manage": "Manage Preferences",
+        "cookie-reject": "Reject All",
+        "cookie-accept": "Accept All",
+        "cookie-pref-title": "Cookie Settings",
+        "cookie-tech-title": "Essential Cookies",
+        "cookie-tech-text": "Strictly necessary for basic website functions. Cannot be disabled.",
+        "cookie-ana-title": "Analytics Cookies",
+        "cookie-ana-text": "Help us understand visitor interactions and improve our user experience.",
+        "cookie-mark-title": "Marketing Cookies",
+        "cookie-mark-text": "Enable tailored content and relevant advertising based on your interests.",
+        "cookie-save": "Save & Apply",
+
+        // Actions
+        "show-more": "Show more",
 
         // Landing Specific
-        "landing-hero-title": "We are the <span class=\"text-accent\">Anti-Default</span> solution for your Property",
-        "landing-hero-subtitle": "Professional management of properties for short-term rentals. Transform your property into a <strong>high-value asset</strong>, with ZERO UPFRONT and ZERO FIXED COSTS",
-        "landing-selection-text": "We exclusively select properties with high potential in the short-term rental market, in order to guarantee maximum quality and optimal return in every project.",
-        "landing-hero-cta": "Calculate Your Profit",
-        "landing-why-1-title": "Maximum Profit",
-        "landing-why-1-text": "Up to 3 times more than traditional renting.",
-        "landing-why-2-title": "Zero Risks",
-        "landing-why-2-text": "Total protection against damages and arrears.",
-        "landing-why-3-title": "Passive Management",
-        "landing-why-3-text": "We handle everything, you just receive the payments.",
-        "landing-form-submit": "GET MY FREE ESTIMATE",
-        "show-more": "Show more"
+        "landing-hero-title": "The <span class=\"text-accent\">Zero-Risk</span> Solution for Your Luxury Property",
+        "landing-hero-subtitle": "Professional management for elite short-term rentals. Transform your property into a <strong>high-value asset</strong> with NO UPFRONT COSTS.",
+        "landing-selection-text": "We exclusively select properties with exceptional potential in the short-term market to guarantee premium quality and optimal returns.",
+        "landing-hero-cta": "Calculate Your Returns",
+        "landing-why-1-title": "Premium Earnings",
+        "landing-why-1-text": "Up to 3 times the revenue of traditional rentals.",
+        "landing-why-2-title": "Zero Risk",
+        "landing-why-2-text": "Comprehensive protection against damages and defaults.",
+        "landing-why-3-title": "Passive Income",
+        "landing-why-3-text": "We manage every detail; you simply receive the payments.",
+        "landing-form-submit": "GET MY COMPLIMENTARY ESTIMATE"
     }
 };
 

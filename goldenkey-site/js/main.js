@@ -324,17 +324,24 @@ function initFormValidation() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        // Get current language and translations
+        const currentLang = localStorage.getItem('gk_language') || 'it';
+        const t = window.translations ? window.translations[currentLang] : null;
+
         const consent = document.getElementById('gdpr-consent');
         if (consent && !consent.checked) {
             consent.focus();
-            showFormFeedback(form, 'error', 'Per favore, accetta la Privacy Policy prima di inviare il modulo.');
+            const msg = t ? t['form-error-consent'] : 'Per favore, accetta la Privacy Policy prima di inviare il modulo.';
+            showFormFeedback(form, 'error', msg);
             return;
         }
 
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="btn-loading">Invio in corso...</span>';
+
+        const loadingMsg = t ? t['form-btn-loading'] : 'Invio in corso...';
+        submitBtn.innerHTML = `<span class="btn-loading">${loadingMsg}</span>`;
 
         try {
             // Check if Firebase is available
@@ -381,11 +388,13 @@ function initFormValidation() {
             await Promise.all([firestorePromise, emailPromise]);
 
             form.reset();
-            showFormFeedback(form, 'success', '✓ Richiesta inviata con successo! Ti contatteremo al più presto.');
+            const successMsg = t ? t['form-success'] : '✓ Richiesta inviata con successo!';
+            showFormFeedback(form, 'success', successMsg);
 
         } catch (error) {
             console.error('Errore invio form:', error);
-            showFormFeedback(form, 'error', 'Si è verificato un errore. Riprova più tardi o contattaci direttamente.');
+            const errorMsg = t ? t['form-error-generic'] : 'Si è verificato un errore. Riprova più tardi.';
+            showFormFeedback(form, 'error', errorMsg);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
