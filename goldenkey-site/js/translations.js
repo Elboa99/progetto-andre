@@ -17,8 +17,8 @@ const translations = {
         "hero-title-3": "TUO",
         "hero-title-4": "IMMOBILE",
         "hero-title-5": "IN",
-        "hero-title-6": "RENDITA",
-        "hero-subtitle": "Trasformiamo la tua proprietà vetrina in un asset solido, libero da vincoli, capace di triplicare le rendite.",
+        "hero-title-6": "RENDITA COSTANTE",
+        "hero-subtitle": "Trasformiamo la tua proprietà in un asset solido, libero da vincoli e ad alta redditività.",
         "hero-accent": "Zero costi fissi.",
         "hero-footer": "Più rendite e meno pensieri!",
         "hero-cta": "Richiedi una Stima Gratuita",
@@ -44,7 +44,7 @@ const translations = {
 
         // Mid CTA
         "cta-mid-title": "OTTIENI UNA STIMA <br>DI REDDITIVITÀ",
-        "cta-mid-text": "Scopri quanto può rendere il tuo immobile sul mercato.",
+        "cta-mid-text": "Scopri quanto può rendere il tuo immobile nel mercato degli affitti a breve termine.",
         "cta-mid-btn": "Calcola il Tuo Profitto",
 
         // Services

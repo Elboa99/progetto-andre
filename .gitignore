@@ -11,3 +11,12 @@ goldenkey-site/js/firebase-config.js
 # Large video files (>100MB, GitHub limit)
 goldenkey-site/assets/images/landing-vsl.mp4
 Contenuti Brand Sito/10.VSL-esv2-90p-bg-30p.mp4
+
+node_modules/
+.firebase/
+firebase-debug.log
+firebase_debug.log
+*.log
+dist/
+build/
+.DS_Store

@@ -467,9 +467,8 @@ function initReviewsCarousel() {
     let currentPage = 0;
 
     function getVisibleCount() {
-        const width = window.innerWidth;
-        if (width <= 600) return 1;
-        if (width <= 1024) return 2;
+        if (window.matchMedia("(max-width: 600px)").matches) return 1;
+        if (window.matchMedia("(max-width: 1024px)").matches) return 2;
         return 3;
     }
 
@@ -502,12 +501,15 @@ function initReviewsCarousel() {
         const totalPages = getTotalPages();
         currentPage = Math.max(0, Math.min(page, totalPages - 1));
 
-        const slideEl = slides[0];
-        const slideWidth = slideEl.offsetWidth;
-        const gap = parseFloat(getComputedStyle(track).gap) || 24;
+        // Use the CONTAINER width to calculate offset, not the slide width.
+        // This ensures mobile (1 slide = 100% of container) works perfectly.
+        const container = track.parentElement; // .carousel-track-container
+        const containerWidth = container.offsetWidth;
         const visibleCount = getVisibleCount();
 
-        const offset = currentPage * visibleCount * (slideWidth + gap);
+        // Each "page" moves by exactly containerWidth (which fits visibleCount slides)
+        const offset = currentPage * containerWidth;
+        track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
         track.style.transform = `translateX(-${offset}px)`;
 
         updateDots();
@@ -528,6 +530,45 @@ function initReviewsCarousel() {
     }
 
     // No auto-advance — user navigates manually with arrows/dots
+
+    
+    // --- Touch Swipe Support ---
+    let touchStartX = 0;
+    let touchCurrentX = 0;
+    let isSwiping = false;
+
+    track.addEventListener('touchstart', function(e) {
+        touchStartX = e.touches[0].clientX;
+        touchCurrentX = touchStartX;
+        isSwiping = true;
+        track.style.transition = 'none';
+    }, { passive: true });
+
+    track.addEventListener('touchmove', function(e) {
+        if (!isSwiping) return;
+        touchCurrentX = e.touches[0].clientX;
+        var diff = touchCurrentX - touchStartX;
+        var container = track.parentElement;
+        var containerWidth = container.offsetWidth;
+        var baseOffset = currentPage * containerWidth;
+        track.style.transform = 'translateX(' + (-(baseOffset - diff)) + 'px)';
+    }, { passive: true });
+
+    track.addEventListener('touchend', function() {
+        if (!isSwiping) return;
+        isSwiping = false;
+        var diff = touchCurrentX - touchStartX;
+        track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+        if (Math.abs(diff) > 40) {
+            if (diff > 0) {
+                goToPage(currentPage - 1);
+            } else {
+                goToPage(currentPage + 1);
+            }
+        } else {
+            goToPage(currentPage);
+        }
+    });
 
     // Rebuild on resize
     window.addEventListener('resize', () => {

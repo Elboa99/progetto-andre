@@ -63,18 +63,33 @@
         <div class="hero-bg">
             <video autoplay muted playsinline preload="auto" class="hero-video active" id="heroVideo1"
                 fetchpriority="high">
+                <!-- Mobile optimized video -->
+                <source src="assets/videos/hero-1-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+                <!-- Desktop max quality video -->
                 <source src="assets/videos/hero-1.mp4" type="video/mp4">
             </video>
-            <video muted playsinline preload="none" class="hero-video" id="heroVideo2">
+            <video muted playsinline preload="auto" class="hero-video" id="heroVideo2">
+                <!-- Mobile optimized video -->
+                <source src="assets/videos/hero-2-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+                <!-- Desktop max quality video -->
                 <source src="assets/videos/hero-2.mp4" type="video/mp4">
             </video>
-            <video muted playsinline preload="none" class="hero-video" id="heroVideo3">
+            <video muted playsinline preload="auto" class="hero-video" id="heroVideo3">
+                <!-- Mobile optimized video -->
+                <source src="assets/videos/hero-3-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+                <!-- Desktop max quality video -->
                 <source src="assets/videos/hero-3.mp4" type="video/mp4">
             </video>
-            <video muted playsinline preload="none" class="hero-video" id="heroVideo4">
+            <video muted playsinline preload="auto" class="hero-video" id="heroVideo4">
+                <!-- Mobile optimized video -->
+                <source src="assets/videos/hero-4-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+                <!-- Desktop max quality video -->
                 <source src="assets/videos/hero-4.mp4" type="video/mp4">
             </video>
-            <video muted playsinline preload="none" class="hero-video" id="heroVideo5">
+            <video muted playsinline preload="auto" class="hero-video" id="heroVideo5">
+                <!-- Mobile optimized video -->
+                <source src="assets/videos/hero-5-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+                <!-- Desktop max quality video -->
                 <source src="assets/videos/hero-5.mp4" type="video/mp4">
             </video>
             <!-- Fallback image for slow connections — hidden by default, shown only if videos fail -->
@@ -92,11 +107,11 @@
                 <br>
                 <span class="word" style="--i:3" data-i18n="hero-title-4">IMMOBILE</span>
                 <span class="word" style="--i:4" data-i18n="hero-title-5">IN</span>
-                <span class="word gold-word" style="--i:5" data-i18n="hero-title-6">RENDITA</span>
+                <span class="word gold-word" style="--i:5" data-i18n="hero-title-6">RENDITA COSTANTE</span>
             </h1>
             <p class="reveal">
-                <span data-i18n="hero-subtitle">Trasformiamo la tua proprietà vetrina in un asset solido, libero da
-                    vincoli, capace di triplicare le rendite.</span><br>
+                <span data-i18n="hero-subtitle">Trasformiamo la tua proprietà in un asset solido, libero da vincoli e ad
+                    alta redditività.</span><br>
                 <span class="text-accent" data-i18n="hero-accent">Zero costi fissi.</span><br>
                 <span data-i18n="hero-footer">Più rendite e meno pensieri!</span>
             </p>
@@ -127,14 +142,10 @@
                             riflette il nostro impegno per
                             la qualità e il rendimento costante.</p>
                         <div class="partners-mini flex gap-6">
-                            <img src="assets/images/logo-airbnb.svg" alt="Partner Airbnb" class="partner-icon"
-                                loading="lazy">
-                            <img src="assets/images/logo-booking.svg" alt="Partner Booking.com" class="partner-icon"
-                                loading="lazy">
-                            <img src="assets/images/logo-vrbo.svg" alt="Partner Vrbo" class="partner-icon"
-                                loading="lazy">
-                            <img src="assets/images/logo-expedia.svg" alt="Partner Expedia" class="partner-icon"
-                                loading="lazy">
+                            <img src="assets/images/logo-airbnb.svg" alt="Partner Airbnb" class="partner-icon">
+                            <img src="assets/images/logo-booking.svg" alt="Partner Booking.com" class="partner-icon">
+                            <img src="assets/images/logo-vrbo.svg" alt="Partner Vrbo" class="partner-icon">
+                            <img src="assets/images/logo-expedia.svg" alt="Partner Expedia" class="partner-icon">
                         </div>
                     </div>
 
@@ -142,45 +153,39 @@
                     <div class="sp-gallery reveal delay-1">
                         <div class="property-grid">
                             <div class="pg-item" data-slide-index="0">
-                                <img src="assets/images/property-1.webp" alt="Soggiorno di lusso curato da Goldenkey"
-                                    loading="lazy" width="800" height="600">
+                                <img src="assets/images/property-1.webp" alt="Soggiorno di lusso curato da Goldenkey">
                                 <div class="pg-overlay">
                                     <i data-lucide="maximize-2"></i>
                                 </div>
                             </div>
                             <div class="pg-item" data-slide-index="1">
                                 <img src="assets/images/property-2.webp"
-                                    alt="Arredamento raffinato in una proprietà Goldenkey" loading="lazy" width="800"
-                                    height="600">
+                                    alt="Arredamento raffinato in una proprietà Goldenkey">
                                 <div class="pg-overlay">
                                     <i data-lucide="maximize-2"></i>
                                 </div>
                             </div>
                             <div class="pg-item" data-slide-index="2">
-                                <img src="assets/images/property-3.webp" alt="Dettaglio d'interni di design"
-                                    loading="lazy" width="800" height="600">
+                                <img src="assets/images/property-3.webp" alt="Dettaglio d'interni di design">
                                 <div class="pg-overlay">
                                     <i data-lucide="maximize-2"></i>
                                 </div>
                             </div>
                             <div class="pg-item" data-slide-index="3">
-                                <img src="assets/images/property-4.webp" alt="Zona notte elegante e luminosa"
-                                    loading="lazy" width="800" height="600">
+                                <img src="assets/images/property-4.webp" alt="Zona notte elegante e luminosa">
                                 <div class="pg-overlay">
                                     <i data-lucide="maximize-2"></i>
                                 </div>
                             </div>
                             <div class="pg-item" data-slide-index="4">
                                 <img src="assets/images/property-5.webp"
-                                    alt="Ingresso moderno di una residenza di prestigio" loading="lazy" width="1200"
-                                    height="800">
+                                    alt="Ingresso moderno di una residenza di prestigio">
                                 <div class="pg-overlay">
                                     <i data-lucide="maximize-2"></i>
                                 </div>
                             </div>
                             <div class="pg-item" data-slide-index="5">
-                                <img src="assets/images/property-6.webp" alt="Vista panoramica di un interno esclusivo"
-                                    loading="lazy" width="800" height="600">
+                                <img src="assets/images/property-6.webp" alt="Vista panoramica di un interno esclusivo">
                                 <div class="pg-overlay">
                                     <i data-lucide="maximize-2"></i>
                                 </div>
@@ -206,43 +211,43 @@
                         <div class="carousel-track-container">
                             <div class="carousel-track">
                                 <div class="carousel-slide"><img src="assets/images/review-1.webp"
-                                        alt="Recensione ospite 1" loading="lazy" width="315" height="561"></div>
+                                        alt="Recensione ospite 1" width="315" height="561"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-2.webp"
-                                        alt="Recensione ospite 2" loading="lazy" width="315" height="561"></div>
+                                        alt="Recensione ospite 2" width="315" height="561"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-3.webp"
-                                        alt="Recensione ospite 3" loading="lazy" width="474" height="561"></div>
+                                        alt="Recensione ospite 3" width="474" height="561"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-4.webp"
-                                        alt="Recensione ospite 4" loading="lazy" width="535" height="561"></div>
+                                        alt="Recensione ospite 4" width="535" height="561"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-5.webp"
-                                        alt="Recensione ospite 5" loading="lazy" width="537" height="561"></div>
+                                        alt="Recensione ospite 5" width="537" height="561"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-6.webp"
-                                        alt="Recensione ospite 6" loading="lazy" width="504" height="561"></div>
+                                        alt="Recensione ospite 6" width="504" height="561"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-7.webp"
-                                        alt="Recensione ospite 7" loading="lazy" width="518" height="561"></div>
+                                        alt="Recensione ospite 7" width="518" height="561"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-8.webp"
-                                        alt="Recensione ospite 8" loading="lazy"></div>
+                                        alt="Recensione ospite 8"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-9.webp"
-                                        alt="Recensione ospite 9" loading="lazy"></div>
+                                        alt="Recensione ospite 9"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-10.webp"
-                                        alt="Recensione ospite 10" loading="lazy"></div>
+                                        alt="Recensione ospite 10"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-11.webp"
-                                        alt="Recensione ospite 11" loading="lazy"></div>
+                                        alt="Recensione ospite 11"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-12.webp"
-                                        alt="Recensione ospite 12" loading="lazy"></div>
+                                        alt="Recensione ospite 12"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-13.webp"
-                                        alt="Recensione ospite 13" loading="lazy"></div>
+                                        alt="Recensione ospite 13"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-14.webp"
-                                        alt="Recensione ospite 14" loading="lazy"></div>
+                                        alt="Recensione ospite 14"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-15.webp"
-                                        alt="Recensione ospite 15" loading="lazy"></div>
+                                        alt="Recensione ospite 15"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-16.webp"
-                                        alt="Recensione ospite 16" loading="lazy"></div>
+                                        alt="Recensione ospite 16"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-17.webp"
-                                        alt="Recensione ospite 17" loading="lazy"></div>
+                                        alt="Recensione ospite 17"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-18.webp"
-                                        alt="Recensione ospite 18" loading="lazy"></div>
+                                        alt="Recensione ospite 18"></div>
                                 <div class="carousel-slide"><img src="assets/images/review-19.webp"
-                                        alt="Recensione ospite 19" loading="lazy"></div>
+                                        alt="Recensione ospite 19"></div>
                             </div>
                         </div>
                         <button class="carousel-arrow carousel-next" aria-label="Successiva">
@@ -265,7 +270,7 @@
                 <div class="cards-grid">
                     <!-- Card 1 -->
                     <div class="feature-card reveal delay-1">
-                        <div class="card-num">01</div>
+
                         <i data-lucide="trending-up" class="card-icon"></i>
                         <h3 class="card-title" data-i18n="why-card-1-title">Incrementa i Tuoi Incassi</h3>
                         <p class="card-text" data-i18n="why-card-1-text">Valorizziamo il tuo immobile per permetterti di
@@ -275,7 +280,7 @@
 
                     <!-- Card 2 -->
                     <div class="feature-card reveal delay-2">
-                        <div class="card-num">02</div>
+
                         <i data-lucide="shield-check" class="card-icon"></i>
                         <h3 class="card-title" data-i18n="why-card-2-title">Stop ai Problemi di Locazione</h3>
                         <p class="card-text" data-i18n="why-card-2-text">Dimentica morosità, danni o burocrazia
@@ -285,7 +290,7 @@
 
                     <!-- Card 3 -->
                     <div class="feature-card reveal delay-3">
-                        <div class="card-num">03</div>
+
                         <i data-lucide="clock" class="card-icon"></i>
                         <h3 class="card-title" data-i18n="why-card-3-title">Flessibilità Totale</h3>
                         <p class="card-text" data-i18n="why-card-3-text">Nessun vincolo a lungo termine e zero anticipi.
@@ -317,7 +322,8 @@
             <div class="cta-overlay"></div>
             <div class="container cta-content">
                 <h2 class="cta-title" data-i18n="cta-mid-title">OTTIENI UNA STIMA <br>DI REDDITIVITÀ</h2>
-                <p class="cta-text" data-i18n="cta-mid-text">Mercato degli affitti a breve termine</p>
+                <p class="cta-text" data-i18n="cta-mid-text">Scopri quanto può rendere il tuo immobile nel mercato degli
+                    affitti a breve termine.</p>
                 <button class="btn-primary"
                     onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"
                     data-i18n="cta-mid-btn">
@@ -411,7 +417,7 @@
                 <div class="contact-grid">
                     <!-- Left: Why Us List -->
                     <div class="contact-info reveal">
-                        <span class="section-num" data-i18n="contact-num">[06]</span>
+
                         <h2 class="section-title" data-i18n="contact-title">RICHIEDI UNA STIMA <br>DI REDDITIVITÀ</h2>
                         <ul class="check-list">
                             <li><i data-lucide="check-circle-2" class="check-icon"></i> <span
@@ -595,48 +601,19 @@
             </button>
             <div class="swiper gallery-swiper">
                 <div class="swiper-wrapper">
-                    <!-- Property grid images (slides 0-5, match grid click indexes) -->
-                    <div class="swiper-slide"><img src="assets/images/property-1.webp"
-                            alt="Soggiorno di lusso curato da Goldenkey" loading="lazy"></div>
-                    <div class="swiper-slide"><img src="assets/images/property-2.webp"
-                            alt="Arredamento raffinato in una proprietà Goldenkey" loading="lazy"></div>
-                    <div class="swiper-slide"><img src="assets/images/property-3.webp"
-                            alt="Dettaglio d'interni di design" loading="lazy"></div>
-                    <div class="swiper-slide"><img src="assets/images/property-4.webp"
-                            alt="Zona notte elegante e luminosa" loading="lazy"></div>
-                    <div class="swiper-slide"><img src="assets/images/property-5.webp"
-                            alt="Ingresso moderno di una residenza di prestigio" loading="lazy"></div>
-                    <div class="swiper-slide"><img src="assets/images/property-6.webp"
-                            alt="Vista panoramica di un interno esclusivo" loading="lazy"></div>
-                    <!-- Additional gallery images -->
-                    <div class="swiper-slide"><img src="assets/images/gallery/2.webp" alt="Gallery 2" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/3.webp" alt="Gallery 3" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/4.webp" alt="Gallery 4" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/5.webp" alt="Gallery 5" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/6.webp" alt="Gallery 6" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/7.webp" alt="Gallery 7" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/8.webp" alt="Gallery 8" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/9.webp" alt="Gallery 9" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/10.webp" alt="Gallery 10" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/11.webp" alt="Gallery 11" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/12.webp" alt="Gallery 12" loading="lazy"
-                            width="1200" height="900"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/13.webp"
-                            alt="Camera da letto con parete in legno" loading="lazy" width="1024" height="682"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/14.webp"
-                            alt="Camera con armadio a specchio" loading="lazy" width="1024" height="682"></div>
-                    <div class="swiper-slide"><img src="assets/images/gallery/15.webp"
-                            alt="Cucina e sala da pranzo luminosa" loading="lazy" width="1024" height="682"></div>
+                    <!-- Property grid images (slides 0-11) -->
+                    <div class="swiper-slide"><img src="assets/images/property-1.webp" alt="Property 1"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-2.webp" alt="Property 2"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-3.webp" alt="Property 3"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-4.webp" alt="Property 4"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-5.webp" alt="Property 5"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-6.webp" alt="Property 6"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-7.webp" alt="Property 7"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-8.webp" alt="Property 8"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-9.webp" alt="Property 9"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-10.webp" alt="Property 10"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-11.webp" alt="Property 11"></div>
+                    <div class="swiper-slide"><img src="assets/images/property-12.webp" alt="Property 12"></div>
                 </div>
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>

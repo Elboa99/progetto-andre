@@ -4,34 +4,28 @@
         "ignore": [
             "firebase.json",
             "**/.*",
-            "**/node_modules/**",
-            "**/new-photos/**"
-        ],
-        "rewrites": [
-            {
-                "source": "**",
-                "destination": "/index.html"
-            }
+            "**/node_modules/**"
         ],
         "headers": [
             {
-                "source": "**/*.@(jpg|jpeg|gif|png|webp|svg|ico)",
+                "source": "**/*.@(jpg|jpeg|gif|png|webp|svg|mp4)",
                 "headers": [
                     {
                         "key": "Cache-Control",
-                        "value": "max-age=31536000, immutable"
+                        "value": "max-age=31536000"
                     }
                 ]
             },
             {
-                "source": "**/*.@(css|js)",
+                "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
                 "headers": [
                     {
-                        "key": "Cache-Control",
-                        "value": "max-age=86400"
+                        "key": "Access-Control-Allow-Origin",
+                        "value": "*"
                     }
                 ]
             }
-        ]
+        ],
+        "cleanUrls": true
     }
 }

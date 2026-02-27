@@ -48,12 +48,15 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     font-family: var(--font-body);
     background-color: var(--bg-main);
     color: var(--content-high);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    /* overflow-x: hidden rimosso per fixare position:fixed su iOS Safari */
+    width: 100%;
+    position: relative;
 }
 
 .container {
@@ -100,6 +103,7 @@ body {
 .hero {
     position: relative;
     height: 100vh;
+    height: 100svh; /* Safari mobile fix — uses small viewport height */
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -109,7 +113,7 @@ body {
 .hero-bg {
     position: absolute;
     inset: 0;
-    will-change: transform;
+
     background: #000;
 }
 
@@ -182,7 +186,7 @@ body {
     inset: 0;
     z-index: 4;
     pointer-events: none;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.3) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.25) 100%);
 }
 
 .hero-image {
@@ -1122,6 +1126,12 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Prevent horizontal scrolling without breaking position: fixed on body */
+main, footer, .hero {
+    overflow-x: hidden;
+}
+
+
 /* --- Link Reset --- */
 a {
     text-decoration: none;
@@ -1274,11 +1284,14 @@ a {
 
     /* Hero Glassbox — centered on mobile */
     .hero-content {
-        margin-left: 1.5rem;
-        margin-right: 1.5rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
         max-width: none;
         text-align: center;
         padding: 2rem 1.5rem;
+        background: rgba(0, 0, 0, 0.08); /* Much more transparent on mobile */
+        backdrop-filter: blur(3px); /* Less blur so video is visible */
+        -webkit-backdrop-filter: blur(3px);
     }
 
     .hero p {
@@ -1531,8 +1544,8 @@ a {
 .toggle-slider::before {
     content: '';
     position: absolute;
-    height: 18px;
-    width: 18px;
+    height: 24px;
+    width: 24px;
     left: 3px;
     bottom: 3px;
     background: #fff;
@@ -1587,9 +1600,9 @@ a {
 }
 
 .checkbox-label input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    min-width: 18px;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
     margin-top: 2px;
     accent-color: var(--color-primary);
     cursor: pointer;
@@ -1661,7 +1674,9 @@ a {
 }
 
 .carousel-track-container {
-    overflow: hidden;
+    overflow: hidden !important;
+    width: 100%;
+    max-width: 100vw;
     flex: 1;
     padding: 1rem 0;
 }
@@ -1670,22 +1685,21 @@ a {
     display: flex;
     gap: 2rem;
     transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    will-change: transform;
+
 }
 
 .carousel-slide {
-    min-width: calc(33.333% - 1.34rem);
-    flex-shrink: 0;
-    border: 1px solid #f0f0f0;
+    /* Desktop: 3 slides */
+    flex: 0 0 calc(33.333% - 1.34rem);
     background: #fff;
-    overflow: hidden;
-    height: 450px;
-    /* Fixed height for consistency */
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    transition: all 0.4s var(--ease-default);
+    overflow: hidden;
+    min-width: 0;
 }
 
 .carousel-slide:hover {
@@ -1697,10 +1711,9 @@ a {
 .carousel-slide img {
     width: 100%;
     height: 100%;
-    display: block;
     object-fit: contain;
-    /* Show full image without cropping */
     object-position: center;
+    pointer-events: none;
 }
 
 /* Carousel Navigation Arrows */
@@ -1759,31 +1772,37 @@ a {
     transform: scale(1.2);
 }
 
-/* Responsive Carousel */
+/* Responsive Carousel — 2 slides on tablet, 1 on mobile */
 @media (max-width: 1024px) {
     .carousel-slide {
-        min-width: calc(50% - 0.75rem);
+        flex: 0 0 calc(50% - 1rem);
     }
 }
 
 @media (max-width: 600px) {
     .carousel-slide {
-        min-width: 100%;
+        flex: 0 0 100%;
+        height: auto;
+        min-height: 400px;
+        max-height: 600px;
     }
-
+    .carousel-track {
+        gap: 0;
+    }
+    .carousel-slide:hover {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    .reviews-carousel {
+        gap: 0.5rem;
+    }
     .carousel-arrow {
         width: 36px;
         height: 36px;
     }
-
     .carousel-arrow svg {
         width: 16px;
         height: 16px;
-    }
-
-    .reviews-carousel-wrapper {
-        margin-top: 4rem;
-        padding-top: 3rem;
     }
 }
 
@@ -2157,4 +2176,35 @@ a {
 /* Body lock when modal is open */
 body.modal-open {
     overflow: hidden;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* --- iOS Safari Render Bugs Fix (Carousel) --- */
+.carousel-track {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+}
+
+.carousel-slide {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.carousel-slide img {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
