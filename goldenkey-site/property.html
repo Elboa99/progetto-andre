@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dettaglio Immobile - GoldenKey</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:wght@200..800&display=swap">
+    <!-- CSS globale -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* =============================================
+           PROPERTY DETAIL — Usa i token di style.css
+           ============================================= */
+
+        /* HEADER — Gradiente verde scuro (come .bg-alt) */
+        .pd-header {
+            background: linear-gradient(90deg, #051405 0%, #0d2b0d 50%, #1b3a1b 100%);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: white;
+            padding: 140px 0 80px;
+            text-align: center;
+        }
+
+        .pd-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 1;
+        }
+
+        .pd-header .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .pd-header .pd-title {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .pd-header .pd-zone {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            color: var(--color-primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 2.5rem;
+        }
+
+        .pd-specs-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .pd-spec {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .pd-spec i {
+            color: var(--color-primary);
+            font-size: 1.2rem;
+        }
+
+        .pd-price-box {
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1.5rem 3rem;
+            margin-top: 1rem;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .pd-price-box:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-4px);
+        }
+
+        .pd-price-label {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 0.5rem;
+        }
+
+        .pd-price-value {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
+        }
+
+        .pd-price-value span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* GALLERIA — Box nero senza raggio */
+        .pd-gallery {
+            max-width: 1400px;
+            margin: -40px auto 0;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .pd-gallery .swiper {
+            height: 550px;
+            background: #111;
+        }
+
+        .pd-gallery .swiper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pd-gallery .swiper-button-next,
+        .pd-gallery .swiper-button-prev {
+            color: var(--color-primary);
+        }
+
+        .pd-gallery .swiper-pagination-bullet-active {
+            background: var(--color-primary);
+        }
+
+        /* CORPO 3 COLONNE */
+        .pd-body {
+            max-width: 1400px;
+            margin: 6rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .pd-panel {
+            border: 1px solid #eee;
+            padding: 2.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: border-color 0.3s var(--ease-default);
+        }
+
+        .pd-panel:hover {
+            border-color: #000;
+        }
+
+        .pd-panel-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--color-primary);
+        }
+
+        /* Liste Dettagli e Servizi */
+        .pd-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pd-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f3f3;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--content-medium);
+        }
+
+        .pd-list li:last-child {
+            border-bottom: none;
+        }
+
+        .pd-list.details i {
+            color: var(--color-primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .pd-list.services i {
+            color: #1b3a1b;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Descrizione */
+        .pd-description {
+            color: var(--content-medium);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .pd-description p {
+            margin-bottom: 1.2rem;
+        }
+
+        /* SEZIONE VIDEO */
+        .pd-video-section {
+            background: linear-gradient(90deg, #051405 0%, #0d2b0d 50%, #1b3a1b 100%);
+            padding: 6rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .pd-video-section .section-title {
+            color: white;
+        }
+
+        .pd-video-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .pd-video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pd-video-container iframe,
+        .pd-video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* CTA FINALE */
+        .pd-cta {
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .pd-cta .section-title {
+            margin-bottom: 3rem;
+        }
+
+        .pd-cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-wa {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #25D366;
+            color: white;
+            padding: 1.25rem 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            border: none;
+            transition: transform 0.2s var(--ease-default);
+        }
+
+        .btn-wa:hover {
+            transform: translateY(-4px);
+        }
+
+        .btn-wa i {
+            font-size: 1.4rem;
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: transparent;
+            color: #000;
+            padding: 1.25rem 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            border: 1px solid #000;
+            transition: all 0.3s var(--ease-default);
+        }
+
+        .btn-outline:hover {
+            background: #000;
+            color: #fff;
+            transform: translateY(-4px);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .pd-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pd-header {
+                padding: 120px 1rem 50px;
+            }
+
+            .pd-header .pd-title {
+                font-size: clamp(2rem, 2rem + 2vw, 3rem);
+            }
+
+            .pd-specs-bar {
+                gap: 1.5rem;
+            }
+
+            .pd-gallery .swiper {
+                height: 300px;
+            }
+
+            .pd-cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container navbar-inner">
+            <a href="index.html" class="navbar-logo">
+                <img src="assets/images/logo-gk.png" alt="Goldenkey Logo" width="180" height="60">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#hero" data-i18n="nav-home">Home</a></li>
+                <li><a href="index.html#social-proof" data-i18n="nav-portfolio">Portfolio</a></li>
+                <li><a href="index.html#why-us" data-i18n="nav-why-us">Vantaggi</a></li>
+                <li><a href="properties.html" data-i18n="nav-properties">I Nostri Immobili</a></li>
+                <li><a href="index.html#contact" class="nav-cta" data-i18n="nav-contact">Contattaci</a></li>
+                <li class="nav-lang-switcher">
+                    <button class="lang-btn active" data-lang="it">IT</button>
+                    <span class="lang-divider">|</span>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </li>
+            </ul>
+            <button class="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- INTESTAZIONE VERDE SCURO -->
+    <header class="pd-header">
+        <div class="container">
+            <h1 class="pd-title" id="pdTitle" data-i18n="pd-title-loading">Caricamento...</h1>
+
+            <div class="pd-zone" id="pdZone">
+                <i class="fa-solid fa-spinner fa-spin"></i> <span data-i18n="pd-zone-loading">Caricamento zona...</span>
+            </div>
+
+            <div class="pd-specs-bar" id="pdSpecsBar">
+                <div class="pd-spec"><i class="fa-solid fa-spinner fa-spin"></i></div>
+            </div>
+
+            <div class="pd-price-box">
+                <p class="pd-price-label" data-i18n="pd-price-from">Prezzo a partire da</p>
+                <p class="pd-price-value" id="pdPrice">...</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- GALLERIA IMMAGINI -->
+    <div class="pd-gallery">
+        <div class="swiper pd-swiper">
+            <div class="swiper-wrapper" id="pdSwiperWrapper">
+                <div class="swiper-slide"
+                    style="display:flex;align-items:center;justify-content:center;background:#111;color:#666;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;"></i>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <!-- CORPO 3 COLONNE -->
+    <section class="pd-body">
+
+        <!-- DETTAGLI -->
+        <div class="pd-panel">
+            <h2 class="pd-panel-title" data-i18n="pd-details">Dettagli</h2>
+            <ul class="pd-list details" id="pdDetailsList">
+                <li><i class="fa-solid fa-spinner fa-spin"></i> Caricamento...</li>
+            </ul>
+        </div>
+
+        <!-- DESCRIZIONE -->
+        <div class="pd-panel">
+            <h2 class="pd-panel-title" data-i18n="pd-desc">Descrizione</h2>
+            <div class="pd-description" id="pdDescription">
+                <p data-i18n="pd-desc-loading">Caricamento descrizione...</p>
+            </div>
+        </div>
+
+        <!-- SERVIZI -->
+        <div class="pd-panel">
+            <h2 class="pd-panel-title" data-i18n="pd-services">Servizi Inclusi</h2>
+            <ul class="pd-list services" id="pdServicesList">
+                <li><i class="fa-solid fa-spinner fa-spin"></i> Caricamento...</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <!-- SEZIONE VIDEO -->
+    <section class="pd-video-section" id="pdVideoSection">
+        <div class="pd-video-wrap">
+            <h2 class="section-title" style="text-align:center;" data-i18n="pd-video-title">VIDEO TOUR</h2>
+            <div class="pd-video-container" id="pdVideoContainer">
+                <p style="color:rgba(255,255,255,0.4); padding:40px;" data-i18n="pd-video-loading">Caricamento video...
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINALE -->
+    <section class="pd-cta">
+        <div class="container">
+            <h2 class="section-title" style="text-align:center;" data-i18n="pd-cta-title">DESIDERI PRENOTARE<br>O HAI
+                DOMANDE?</h2>
+            <div class="pd-cta-buttons">
+                <a href="https://wa.me/393883030552" id="pdWhatsappLink" target="_blank" class="btn-wa"
+                    data-i18n="pd-cta-wa"><i class="fa-brands fa-whatsapp"></i> Chiedi su WhatsApp</a>
+                <a href="index.html#contact" class="btn-outline" data-i18n="pd-cta-email"><i
+                        class="fa-solid fa-envelope"></i> Vai al Modulo Contatti</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top reveal">
+                <h2 class="footer-cta" data-i18n="footer-cta">Pronto a Iniziare? <br><span
+                        class="text-accent">Contattaci.</span></h2>
+                <div class="footer-logo">
+                    <img src="assets/images/logo-gk.png" alt="Goldenkey Logo" class="footer-logo-img" width="180"
+                        height="60">
+                </div>
+            </div>
+            <div class="footer-socials">
+                <a href="https://wa.me/393883030552" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/goldenkey_shortrent/" target="_blank" rel="noopener noreferrer"
+                    aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+            <div class="footer-bottom flex-between flex-wrap gap-6">
+                <div class="footer-links flex gap-8">
+                    <a href="index.html#hero" data-i18n="nav-home">Home</a>
+                    <a href="index.html#services" data-i18n="nav-services">Servizi</a>
+                    <a href="index.html#contact" data-i18n="nav-contact">Contatti</a>
+                    <a href="privacy.html" data-i18n="footer-privacy">Privacy Policy</a>
+                    <a href="cookie-policy.html" data-i18n="footer-cookie">Cookie Policy</a>
+                </div>
+                <div class="copyright">
+                    <p class="footer-contact" data-i18n="footer-contact-info">GoldenKey è un marchio di Lux Florental
+                        srl - P.iva 14530200964 - 04107000129 - P.zza Vetra, 17 Milano 20123 - &copy; Lux Florental Srl.
+                        All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="js/translations.js" defer></script>
+    <script src="js/main.js" defer></script>
+
+    <!-- Swiper (loaded before detail script) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Detail page logic -->
+    <script src="js/public-property-detail.js"></script>
+</body>
+
+</html>

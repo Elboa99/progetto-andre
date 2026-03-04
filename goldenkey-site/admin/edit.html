@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Immobile - Admin GoldenKey</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:wght@200..800&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Admin Panel Styles -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/images/logo-gk.png" alt="GoldenKey"
+                onerror="this.src='https://via.placeholder.com/150x50/1a361a/ffffff?text=GoldenKey'">
+            <p>Admin Workspace</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i> Dashboard
+            </a>
+            <a href="properties.html" class="nav-item active">
+                <i class="fa-solid fa-key"></i> Immobili
+            </a>
+            <a href="requests.html" class="nav-item">
+                <i class="fa-solid fa-envelope"></i> Richieste
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i> Impostazioni
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="btn-logout" onclick="logoutAdmin(event)">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Esci
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <h1 class="page-title">
+                <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                Crea Nuovo Immobile
+            </h1>
+            <button class="btn-save" type="button">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Salva e Pubblica
+            </button>
+        </div>
+
+        <form id="propertyForm">
+
+            <!-- SEZIONE 1: Info Principali -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fa-solid fa-pen-to-square"></i> Informazioni Principali</h2>
+
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label" for="propTitle">Titolo Annuncio</label>
+                        <input type="text" id="propTitle" class="form-control"
+                            placeholder="Es. Attico Panoramico Vista Duomo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="propLocation">Città / Zona</label>
+                        <input type="text" id="propLocation" class="form-control"
+                            placeholder="Es. Centro Storico, Milano" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="propPrice">Prezzo per Notte (€)</label>
+                        <input type="number" id="propPrice" class="form-control" placeholder="Es. 150" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="propType">Tipologia Immobile</label>
+                        <select id="propType" class="form-control" required>
+                            <option value="">Seleziona tipologia</option>
+                            <option value="Appartamento">Appartamento</option>
+                            <option value="Villa">Villa Singola</option>
+                            <option value="Attico">Attico</option>
+                            <option value="Loft">Loft</option>
+                            <option value="Chalet">Chalet</option>
+                            <option value="Casa Vacanze">Casa Vacanze</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEZIONE 2: Specifiche (Icone) -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fa-solid fa-list-ul"></i> Specifiche Tecniche</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="propBeds">Posti Letto</label>
+                        <input type="number" id="propBeds" class="form-control" placeholder="Es. 4">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="propRooms">Camere da letto</label>
+                        <input type="number" id="propRooms" class="form-control" placeholder="Es. 2">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="propBaths">Bagni</label>
+                        <input type="number" id="propBaths" class="form-control" placeholder="Es. 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="propArea">Metri Quadri (Mq)</label>
+                        <input type="number" id="propArea" class="form-control" placeholder="Es. 75">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="propEnergyClass">Classe Energetica</label>
+                        <select id="propEnergyClass" class="form-control">
+                            <option value="">Seleziona Classe</option>
+                            <option value="A4">A4 (Massima Efficienza)</option>
+                            <option value="A3">A3</option>
+                            <option value="A2">A2</option>
+                            <option value="A1">A1</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G (Minima Efficienza)</option>
+                            <option value="Esente">Esente / Non Applicabile</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="propIpe">Indice Prestazione (IPE) - opzionale</label>
+                        <input type="text" id="propIpe" class="form-control" placeholder="Es. 175.50 kWh/m²a">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEZIONE 3: Descrizione -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fa-solid fa-align-left"></i> Descrizione Completa</h2>
+
+                <div class="form-group full-width">
+                    <label class="form-label" for="propDescription">Testo dell'annuncio (Supporta a capo)</label>
+                    <textarea id="propDescription" class="form-control"
+                        placeholder="Descrivi i punti forti dell'immobile, la posizione, e cosa rende unico questo appartamento..."></textarea>
+                </div>
+            </div>
+
+            <!-- SEZIONE 4: Servizi Checkbox -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fa-solid fa-check-double"></i> Servizi Inclusi (Dotazioni)</h2>
+
+                <div class="checkbox-grid">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="WiFi"> Wi-Fi Fibra
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Aria Condizionata"> Aria Condizionata
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Smart TV"> Smart TV Netflix/Prime
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Cucina"> Cucina Attrezzata
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Macchina Caffe"> Macchina del Caffè
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Lavatrice"> Lavatrice
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Parcheggio"> Parcheggio Privato
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Self Check-in"> Self Check-in 24/7
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Piscina"> Piscina
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="services" value="Animali"> Animali Ammessi
+                    </label>
+                </div>
+            </div>
+
+            <!-- SEZIONE 5: Immagini (Drag & Drop Mockup) -->
+            <div class="form-section">
+                <h2 class="section-title"><i class="fa-solid fa-images"></i> Galleria Fotografica</h2>
+
+                <div class="upload-area" id="uploadArea">
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <p class="upload-text">Trascina qui le tue foto oppure Clicca per Scegliere</p>
+                    <p class="upload-hint">Formati supportati: JPG, PNG, WEBP (Max 5MB a foto).<br><strong
+                            style="color:#bfa15f;">⭐ La PRIMA foto diventerà la COPERTINA (visibile nella lista immobili
+                            e come sfondo nella pagina dettaglio).</strong></p>
+                </div>
+
+                <!-- Anteprima (Mockup per farti vedere l'idea) -->
+                <div class="images-preview">
+                    <!-- IMG 1 (Copertina) -->
+                    <div class="img-preview-card">
+                        <img src="../assets/images/placeholder-villa.jpg"
+                            onerror="this.src='https://via.placeholder.com/400x300?text=Foto+1'">
+                        <div class="cover-badge">Copertina</div>
+                        <button class="btn-remove-img" type="button"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <!-- IMG 2 -->
+                    <div class="img-preview-card">
+                        <img src="../assets/images/placeholder-villa2.jpg"
+                            onerror="this.src='https://via.placeholder.com/400x300?text=Foto+2'">
+                        <button class="btn-remove-img" type="button"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title"><i class="fa-solid fa-video"></i> Video Tour (Opzionale)</h2>
+                <div class="form-group full-width">
+                    <label class="form-label" for="propVideoTour">Link YouTube o Vimeo</label>
+                    <input type="url" id="propVideoTour" class="form-control"
+                        placeholder="Es. https://www.youtube.com/watch?v=...">
+                </div>
+
+                <div class="form-group full-width" style="margin-bottom:0; margin-top:20px;">
+                    <label class="form-label">Oppure Carica File Video (mp4, webm)</label>
+                    <div class="upload-area" id="videoUploadArea"
+                        onclick="document.getElementById('videoInput').click()">
+                        <i class="fa-solid fa-film upload-icon"></i>
+                        <p class="upload-text">Clicca o trascina qui un video</p>
+                        <p class="upload-hint" id="videoUploadHint">Formati supportati: MP4, WEBM. Max 50MB.</p>
+                        <input type="file" id="videoInput" accept="video/mp4,video/webm" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTONE SALVA -->
+            <div style="text-align: right; padding-bottom: 50px;">
+                <button class="btn-save" type="button" style="padding: 15px 30px; font-size: 1.1rem;">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Salva Immobile nel Server
+                </button>
+            </div>
+
+        </form>
+
+    </main>
+
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+    <!-- Configurazione Database -->
+    <script src="/js/firebase-config.js"></script>
+    <script src="/admin/js/auth.js"></script>
+
+    <!-- Logica di Upload e Salvataggio -->
+    <script src="js/edit.js"></script>
+
+    <!-- Guardia di sicurezza -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+        });
+    </script>
+</body>
+
+</html>

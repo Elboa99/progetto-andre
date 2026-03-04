@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richieste - Pannello Admin GoldenKey</title>
+    <!-- Fonts -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:wght@200..800&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS (Ricicliamo lo stile base) -->
+    <!-- Admin Panel Styles -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/images/logo-gk.png" alt="GoldenKey"
+                onerror="this.src='https://via.placeholder.com/150x50/1a361a/ffffff?text=GoldenKey'">
+            <p>Admin Workspace</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i> Dashboard
+            </a>
+            <a href="properties.html" class="nav-item">
+                <i class="fa-solid fa-key"></i> Immobili
+            </a>
+            <a href="requests.html" class="nav-item active">
+                <i class="fa-solid fa-envelope"></i> Richieste
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i> Impostazioni
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="btn-logout" onclick="logoutAdmin(event)">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Esci
+            </a>
+        </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="main-content">
+        <div class="topbar">
+            <h1 class="page-title">Messaggi Clienti</h1>
+        </div>
+
+        <div class="requests-container" id="requestsBox">
+            <div class="empty-state">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Caricamento messaggi in corso...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+    <!-- Configurazione Database & Auth -->
+    <script src="/js/firebase-config.js"></script>
+    <script src="/admin/js/auth.js"></script>
+
+    <!-- Script gestione pagina richieste -->
+    <script src="/admin/js/requests.js"></script>
+
+    <!-- Guardia di sicurezza -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+        });
+    </script>
+</body>
+
+</html>

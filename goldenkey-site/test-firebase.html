@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test Firebase Connection</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        .log-box {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #1a361a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Firebase Connection Test</h1>
+
+    <h3>1. Test Database (Firestore)</h3>
+    <button class="btn" onclick="testFirestore()">Test Scrittura Firestore</button>
+    <div id="logFirestore" class="log-box">In attesa...</div>
+
+    <h3>2. Test Storage (Immagini)</h3>
+    <button class="btn" onclick="testStorage()">Test Upload Storage</button>
+    <div id="logStorage" class="log-box">In attesa...</div>
+
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+    <!-- Configurazione -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        function logMsg(elementId, msg, type = 'normal') {
+            const el = document.getElementById(elementId);
+            const span = document.createElement('div');
+            span.innerHTML = msg;
+            if (type === 'success') span.className = 'success';
+            if (type === 'error') span.className = 'error';
+            el.appendChild(span);
+        }
+
+        async function testFirestore() {
+            const el = document.getElementById('logFirestore');
+            el.innerHTML = "Avvio test scrittura Firestore...<br>";
+
+            try {
+                const docRef = await db.collection("test_connection").add({
+                    testMessage: "Ciao, Firestore funziona!",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                logMsg('logFirestore', `✅ SUCCESSO! Il Database funziona. Documento scritto con ID: ${docRef.id}`, 'success');
+            } catch (error) {
+                console.error("Errore Firestore:", error);
+                logMsg('logFirestore', `❌ ERRORE DATABASE: ${error.message} <br> (Probabilmente le 'Regole di Sicurezza' bloccano la scrittura, oppure il DB non è ancora creato/attivo).`, 'error');
+            }
+        }
+
+        async function testStorage() {
+            const el = document.getElementById('logStorage');
+            el.innerHTML = "Avvio test Storage...<br>";
+
+            try {
+                const storage = firebase.storage();
+                const storageRef = storage.ref();
+                const testRef = storageRef.child('test_upload.txt');
+
+                // Carichiamo un piccolo file di testo finto
+                await testRef.putString('Questo è un test di funzionamento Firebase Storage');
+                const url = await testRef.getDownloadURL();
+
+                logMsg('logStorage', `✅ SUCCESSO! Lo Storage funziona. <br>File caricato all'URL: <a href="${url}" target="_blank">${url}</a>`, 'success');
+            } catch (error) {
+                console.error("Errore Storage:", error);
+                let fixMsg = "Errore sconosciuto";
+                if (error.code === 'storage/unauthorized') fixMsg = "Permesso negato. Controlla le regole di sicurezza dello Storage.";
+                if (error.code === 'storage/unknown') fixMsg = "Errore Server (potrebbe essere il blocco di Google dell'altro giorno o Storage non attivato dal pannello Firebase).";
+
+                logMsg('logStorage', `❌ ERRORE STORAGE: ${error.message} <br> <strong>Motivo probabile:</strong> ${fixMsg}`, 'error');
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - GoldenKey</title>
+    <!-- Fonts -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:wght@200..800&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Admin Panel Styles -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/images/logo-gk.png" alt="GoldenKey"
+                onerror="this.src='https://via.placeholder.com/150x50/1a361a/ffffff?text=GoldenKey'">
+            <p>Admin Workspace</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active">
+                <i class="fa-solid fa-house"></i> Dashboard
+            </a>
+            <a href="properties.html" class="nav-item">
+                <i class="fa-solid fa-key"></i> Immobili
+            </a>
+            <a href="requests.html" class="nav-item">
+                <i class="fa-solid fa-envelope"></i> Richieste
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i> Impostazioni
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="btn-logout" onclick="logoutAdmin(event)">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Esci
+            </a>
+        </div>
+    </aside>
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <h1 class="page-title">Dashboard</h1>
+            <a href="edit.html" class="btn-primary">
+                <i class="fa-solid fa-plus"></i> Nuovo Immobile
+            </a>
+        </div>
+
+        <!-- STATS — populated dynamically by dashboard.js -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-building"></i></div>
+                <div class="stat-info">
+                    <h3 id="statTotal"><i class="fa-solid fa-spinner fa-spin" style="font-size:1rem"></i></h3>
+                    <p>Immobili Totali</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-eye"></i></div>
+                <div class="stat-info">
+                    <h3 id="statPublished"><i class="fa-solid fa-spinner fa-spin" style="font-size:1rem"></i></h3>
+                    <p>Pubblicati Online</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                <div class="stat-info">
+                    <h3 id="statDrafts"><i class="fa-solid fa-spinner fa-spin" style="font-size:1rem"></i></h3>
+                    <p>In Bozza</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div class="stat-info">
+                    <h3 id="statContacts"><i class="fa-solid fa-spinner fa-spin" style="font-size:1rem"></i></h3>
+                    <p>Richieste Clienti</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLE — populated dynamically by dashboard.js -->
+        <div class="card-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Ultimi Immobili</h2>
+                <a href="properties.html"
+                    style="color: var(--color-primary); font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                    Vedi Tutti →
+                </a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Immobile</th>
+                        <th>Zona</th>
+                        <th>Prezzo / Notte</th>
+                        <th>Stato</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody id="dashboardTableBody">
+                    <tr>
+                        <td colspan="5" style="text-align:center; padding: 40px; color: var(--admin-text-muted);">
+                            <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Caricamento dati
+                            reali...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+    <!-- Configurazione Database & Auth -->
+    <script src="/js/firebase-config.js"></script>
+    <script src="/admin/js/auth.js"></script>
+    <!-- Dashboard logic -->
+    <script src="/admin/js/dashboard.js"></script>
+
+    <!-- Guardia di sicurezza -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+        });
+    </script>
+</body>
+
+</html>
