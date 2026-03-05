@@ -60,9 +60,16 @@ async function loadExistingProperty(id) {
         document.getElementById('propRooms').value = data.specs?.rooms || '';
         document.getElementById('propBaths').value = data.specs?.baths || '';
         document.getElementById('propArea').value = data.specs?.area || '';
-        document.getElementById('propEnergyClass').value = data.energy?.class || '';
-        document.getElementById('propIpe').value = data.energy?.ipe || '';
-        document.getElementById('propDescription').value = data.description || '';
+        // Populate Description
+        if (typeof data.description === 'object' && data.description !== null) {
+            document.getElementById('propDescriptionIt').value = data.description.it || '';
+            document.getElementById('propDescriptionEn').value = data.description.en || '';
+            document.getElementById('propDescriptionFr').value = data.description.fr || '';
+            document.getElementById('propDescriptionEs').value = data.description.es || '';
+        } else {
+            // Retrocompatibilità: se la descrizione è una stringa semplice, la inseriamo nel campo italiano
+            document.getElementById('propDescriptionIt').value = data.description || '';
+        }
 
         if (data.videoTour && (data.videoTour.includes('youtube.com') || data.videoTour.includes('youtu.be') || data.videoTour.includes('vimeo.com'))) {
             document.getElementById('propVideoTour').value = data.videoTour;
@@ -219,7 +226,12 @@ async function saveProperty() {
     const area = document.getElementById('propArea').value.trim() || 0;
     const energyClass = document.getElementById('propEnergyClass').value;
     const ipe = document.getElementById('propIpe').value.trim();
-    const description = document.getElementById('propDescription').value.trim();
+
+    // Descrizioni Multilingua
+    const descriptionIt = document.getElementById('propDescriptionIt').value.trim();
+    const descriptionEn = document.getElementById('propDescriptionEn').value.trim();
+    const descriptionFr = document.getElementById('propDescriptionFr').value.trim();
+    const descriptionEs = document.getElementById('propDescriptionEs').value.trim();
     const videoUrl = document.getElementById('propVideoTour').value.trim();
 
     // Raccogli servizi (Checkboxes)
@@ -276,7 +288,12 @@ async function saveProperty() {
                 class: energyClass || 'ND',
                 ipe: ipe || ''
             },
-            description: description,
+            description: {
+                it: descriptionIt,
+                en: descriptionEn,
+                fr: descriptionFr,
+                es: descriptionEs
+            },
             services: services,
             images: finalImageUrls, // Array di url stringa
             coverImage: finalImageUrls.length > 0 ? finalImageUrls[0] : '',
@@ -350,9 +367,64 @@ function setLoading(isLoading) {
     }
 }
 
+// Funzione di Auto-Traduzione usando MyMemory API
+async function autoTranslateDescription() {
+    const textIt = document.getElementById('propDescriptionIt').value.trim();
+    if (!textIt) {
+        alert("Inserisci prima la descrizione in Italiano per poterla tradurre.");
+        return;
+    }
+
+    const btnTranslate = document.getElementById('btnAutoTranslate');
+    const originalBtnInner = btnTranslate.innerHTML;
+    btnTranslate.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Traduzione in corso...';
+    btnTranslate.disabled = true;
+
+    try {
+        // Funzione helper per chiamare MyMemory
+        const translate = async (text, langPair) => {
+            const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.responseStatus === 200) {
+                return data.responseData.translatedText;
+            } else {
+                console.warn(`Errore MyMemory API per ${langPair}:`, data);
+                return text; // Fallback al testo originale in caso di errore
+            }
+        };
+
+        // Traduci in parallelo nelle 3 lingue principali
+        const [enText, frText, esText] = await Promise.all([
+            translate(textIt, 'it|en'),
+            translate(textIt, 'it|fr'),
+            translate(textIt, 'it|es')
+        ]);
+
+        document.getElementById('propDescriptionEn').value = enText;
+        document.getElementById('propDescriptionFr').value = frText;
+        document.getElementById('propDescriptionEs').value = esText;
+
+        alert("Traduzione automatica completata! Rileggi le descrizioni prima di salvare.");
+
+    } catch (err) {
+        console.error("Errore durante l'auto-traduzione:", err);
+        alert("Si è verificato un errore durante la traduzione. Riprova più tardi.");
+    } finally {
+        btnTranslate.innerHTML = originalBtnInner;
+        btnTranslate.disabled = false;
+    }
+}
+
 // Event Listeners Buttons Salva
 btnSaveHeader.addEventListener('click', saveProperty);
 btnSaveBottom.addEventListener('click', saveProperty);
+
+// Event Listener Auto-Translate
+const btnAutoTranslate = document.getElementById('btnAutoTranslate');
+if (btnAutoTranslate) {
+    btnAutoTranslate.addEventListener('click', autoTranslateDescription);
+}
 
 // Nascondo/Pulisco le immagini placeholder all'avvio reale in modo pulito
 imagePreviewContainer.innerHTML = '';

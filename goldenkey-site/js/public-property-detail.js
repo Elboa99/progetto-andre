@@ -189,7 +189,18 @@ async function loadPropertyDetail() {
         // Popola DESCRIZIONE
         const descEl = document.getElementById('pdDescription');
         if (descEl) {
-            const paragraphs = d.description ? d.description.split('\n') : [`<span data-i18n="pd-no-desc">Nessuna descrizione disponibile.</span>`];
+            let descToUse = '';
+            const currentLang = localStorage.getItem('gk_language') || 'it';
+
+            if (typeof d.description === 'object' && d.description !== null) {
+                // Prendi la traduzione per la lingua corrente, fallback su IT se mancante
+                descToUse = d.description[currentLang] || d.description['it'] || '';
+            } else {
+                // Retrocompatibilità
+                descToUse = d.description || '';
+            }
+
+            const paragraphs = descToUse ? descToUse.split('\n') : [`<span data-i18n="pd-no-desc">Nessuna descrizione disponibile.</span>`];
             descEl.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
         }
 
@@ -246,9 +257,25 @@ async function loadPropertyDetail() {
             waLink.href = `https://wa.me/393883030552?text=Salve,%20vorrei%20info%20su%20"${encodedTitle}"`;
         }
 
+        // --- GLOBAL HOOK PER CAMBIO LINGUA DINAMICO DELLA DESCRIZIONE ---
+        window.updatePropertyDescriptionLanguage = function (lang) {
+            const descriptionContainer = document.getElementById('pdDescription');
+            if (descriptionContainer && d.description) {
+                let descToUse = '';
+                if (typeof d.description === 'object' && d.description !== null) {
+                    descToUse = d.description[lang] || d.description['it'] || '';
+                } else {
+                    descToUse = d.description || '';
+                }
+                const newParagraphs = descToUse ? descToUse.split('\n') : [`<span data-i18n="pd-no-desc">Nessuna descrizione disponibile.</span>`];
+                descriptionContainer.innerHTML = newParagraphs.map(p => `<p>${p}</p>`).join('');
+            }
+        };
+
     } catch (error) {
         console.error("Errore caricamento dettaglio immobile:", error);
     } finally {
         if (typeof setLanguage === 'function') setLanguage(localStorage.getItem('gk_language') || 'it');
     }
 }
+

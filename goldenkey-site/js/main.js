@@ -98,6 +98,10 @@ function setLanguage(lang) {
             el.placeholder = t[key];
         }
     });
+    // CATCH: se siamo in property.html, ricarica la descrizione
+    if (typeof window.updatePropertyDescriptionLanguage === "function") {
+        window.updatePropertyDescriptionLanguage(lang);
+    }
 }
 
 
