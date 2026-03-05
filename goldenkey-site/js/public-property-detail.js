@@ -85,12 +85,84 @@ async function loadPropertyDetail() {
                 slide.innerHTML = `<img src="${url}" alt="Foto ${i + 1}" onerror="this.src='https://via.placeholder.com/1400x550/1b3a1b/c9a227?text=GoldenKey'">`;
                 swiperWrapper.appendChild(slide);
             });
+
+            // Photo Counter
+            const counterEl = document.getElementById('pdPhotoCounter');
+            const counterCurrent = document.getElementById('pdCounterCurrent');
+            const counterTotal = document.getElementById('pdCounterTotal');
+            if (counterEl) {
+                counterTotal.textContent = d.images.length;
+                counterCurrent.textContent = '1';
+                counterEl.style.display = 'block';
+            }
+
             // Inizializza Swiper dopo aver aggiunto le immagini
-            new Swiper('.pd-swiper', {
+            const pdSwiper = new Swiper('.pd-swiper', {
                 loop: d.images.length > 1,
                 navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
                 pagination: { el: '.swiper-pagination', clickable: true },
                 autoplay: { delay: 4000, disableOnInteraction: false }
+            });
+
+            // Update counter on slide change
+            pdSwiper.on('slideChange', () => {
+                if (counterCurrent) {
+                    counterCurrent.textContent = pdSwiper.realIndex + 1;
+                }
+            });
+
+            // ---------- LIGHTBOX ----------
+            const lightbox = document.getElementById('pdLightbox');
+            const lightboxImg = document.getElementById('pdLightboxImg');
+            const lightboxCounter = document.getElementById('pdLightboxCounter');
+            const allImages = d.images;
+            let lightboxIndex = 0;
+
+            function openLightbox(index) {
+                lightboxIndex = index;
+                lightboxImg.src = allImages[lightboxIndex];
+                lightboxCounter.textContent = `${lightboxIndex + 1} / ${allImages.length}`;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function lightboxNav(dir) {
+                lightboxIndex = (lightboxIndex + dir + allImages.length) % allImages.length;
+                lightboxImg.src = allImages[lightboxIndex];
+                lightboxImg.style.animation = 'none';
+                lightboxImg.offsetHeight; // trigger reflow
+                lightboxImg.style.animation = '';
+                lightboxCounter.textContent = `${lightboxIndex + 1} / ${allImages.length}`;
+            }
+
+            // Click on slide to open lightbox
+            document.querySelectorAll('.pd-swiper .swiper-slide').forEach((slide) => {
+                slide.addEventListener('click', () => {
+                    openLightbox(pdSwiper.realIndex);
+                });
+            });
+
+            // Lightbox controls
+            document.getElementById('pdLightboxClose').addEventListener('click', closeLightbox);
+            document.getElementById('pdLightboxPrev').addEventListener('click', () => lightboxNav(-1));
+            document.getElementById('pdLightboxNext').addEventListener('click', () => lightboxNav(1));
+
+            // Click on backdrop to close
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') lightboxNav(-1);
+                if (e.key === 'ArrowRight') lightboxNav(1);
             });
         }
 

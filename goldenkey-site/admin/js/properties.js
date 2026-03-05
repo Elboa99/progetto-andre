@@ -66,7 +66,7 @@ async function loadProperties() {
                 <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                 <td>
                     <div class="action-btns">
-                        <button class="btn-icon" title="Modifica (Prossimamente)"><i class="fa-solid fa-pen"></i></button>
+                        <a href="edit.html?id=${id}" class="btn-icon" title="Modifica"><i class="fa-solid fa-pen"></i></a>
                         <button class="btn-icon" title="${toggleTitle}" onclick="togglePropertyStatus('${id}', '${status}')">
                             <i class="fa-solid ${toggleIcon}"></i>
                         </button>
@@ -108,11 +108,47 @@ async function togglePropertyStatus(id, currentStatus) {
 
 // Elimina immobile
 async function deleteProperty(id, title) {
-    if (confirm(`Sei SICURO di voler eliminare l'immobile "${title}"? Questa azione è irreversibile e non cancellerà le foto dallo storage (dovrai farlo manualmente).`)) {
+    if (confirm(`Sei SICURO di voler eliminare l'immobile "${title}"? Questa azione eliminerà anche tutte le foto e i video associati in modo irreversibile.`)) {
         try {
+            // 1. Recupera il documento per avere gli URL dei file
+            const doc = await db.collection("properties").doc(id).get();
+            if (doc.exists) {
+                const data = doc.data();
+                const storage = firebase.storage();
+
+                // Raccogli tutti gli URL da eliminare
+                let fileUrls = [];
+                if (data.coverImage) fileUrls.push(data.coverImage);
+                if (data.images && data.images.length > 0) fileUrls.push(...data.images);
+                if (data.videoTour && !data.videoTour.includes('youtube.com') && !data.videoTour.includes('vimeo.com')) {
+                    fileUrls.push(data.videoTour); // Seleziona solo video caricati su Storage, non link esterni
+                }
+
+                // Rimuovi duplicati (coverImage è spesso anche dentro images[])
+                fileUrls = [...new Set(fileUrls)];
+
+                // 2. Elimina i file dallo Storage
+                const deletePromises = fileUrls.map(async (url) => {
+                    if (url.includes('firebasestorage.googleapis.com')) {
+                        try {
+                            const fileRef = storage.refFromURL(url);
+                            await fileRef.delete();
+                        } catch (err) {
+                            console.warn("Impossibile eliminare da storage:", url, err);
+                        }
+                    }
+                });
+
+                // Aspetta che tutte le foto/video vengano eliminati (o ignorati se errore)
+                await Promise.all(deletePromises);
+            }
+
+            // 3. Elimina il documento dal Database
             await db.collection("properties").doc(id).delete();
+
             // Ricarichiamo la tabella
             loadProperties();
+
         } catch (error) {
             console.error("Errore eliminazione:", error);
             alert("Errore eliminazione: " + error.message);

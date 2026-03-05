@@ -12,7 +12,83 @@ const btnSaveHeader = document.querySelector('.topbar .btn-save');
 const btnSaveBottom = document.querySelector('.form-section + div .btn-save');
 
 let selectedFiles = []; // Array per mantenere in memoria i file (oggetti File) scelti
+let existingImages = []; // Array per mantenere gli url delle foto già caricate
 let selectedVideoFile = null; // File video opzionale
+let editMode = false;
+let editPropertyId = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const propertyId = params.get('id');
+
+    if (propertyId) {
+        editMode = true;
+        editPropertyId = propertyId;
+
+        // Update UI for editing
+        document.getElementById('pageMainTitle').innerHTML = '<a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a> Modifica Immobile';
+        btnSaveHeader.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Aggiorna Immobile';
+        btnSaveBottom.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Aggiorna Immobile nel Server';
+
+        // Wait for Firebase to be ready then load data
+        const checkReady = setInterval(() => {
+            if (typeof db !== 'undefined') {
+                clearInterval(checkReady);
+                loadExistingProperty(propertyId);
+            }
+        }, 100);
+    }
+});
+
+async function loadExistingProperty(id) {
+    try {
+        const doc = await db.collection("properties").doc(id).get();
+        if (!doc.exists) {
+            alert("Immobile non trovato.");
+            window.location.href = "properties.html";
+            return;
+        }
+
+        const data = doc.data();
+
+        // Populate inputs
+        document.getElementById('propTitle').value = data.title || '';
+        document.getElementById('propLocation').value = data.location || '';
+        document.getElementById('propPrice').value = data.price || '';
+        document.getElementById('propType').value = data.type || '';
+        document.getElementById('propBeds').value = data.specs?.beds || '';
+        document.getElementById('propRooms').value = data.specs?.rooms || '';
+        document.getElementById('propBaths').value = data.specs?.baths || '';
+        document.getElementById('propArea').value = data.specs?.area || '';
+        document.getElementById('propEnergyClass').value = data.energy?.class || '';
+        document.getElementById('propIpe').value = data.energy?.ipe || '';
+        document.getElementById('propDescription').value = data.description || '';
+
+        if (data.videoTour && (data.videoTour.includes('youtube.com') || data.videoTour.includes('youtu.be') || data.videoTour.includes('vimeo.com'))) {
+            document.getElementById('propVideoTour').value = data.videoTour;
+        } else if (data.videoTour) {
+            videoUploadHint.innerText = `Video esistente caricato (link diretto salvato). Tieni per non sovrascrivere.`;
+            videoUploadHint.style.color = 'var(--primary)';
+        }
+
+        // Populate Checkboxes
+        if (data.services && data.services.length > 0) {
+            document.querySelectorAll('input[name="services"]').forEach(cb => {
+                if (data.services.includes(cb.value)) cb.checked = true;
+            });
+        }
+
+        // Populate Images
+        if (data.images && data.images.length > 0) {
+            existingImages = data.images;
+            renderPreviews();
+        }
+
+    } catch (err) {
+        console.error("Errore caricamento immobile:", err);
+        alert("Impossibile caricare i dati.");
+    }
+}
 
 // 1. Gestione Drag & Drop e Selezione File
 const fileInput = document.createElement('input');
@@ -83,17 +159,34 @@ function handleFiles(files) {
 
 function renderPreviews() {
     imagePreviewContainer.innerHTML = ''; // Pulisci anteprime precedenti
+
+    // Mostra immagini esistenti
+    existingImages.forEach((url, index) => {
+        const card = document.createElement('div');
+        card.className = 'img-preview-card';
+        let badgeHtml = index === 0 ? '<div class="cover-badge">Copertina</div>' : '';
+
+        card.innerHTML = `
+            <img src="${url}" alt="Preview Foto (Esistente)">
+            ${badgeHtml}
+            <button class="btn-remove-img" type="button" onclick="removeExistingImage(${index})"><i class="fa-solid fa-xmark"></i></button>
+        `;
+        imagePreviewContainer.appendChild(card);
+    });
+
+    // Mostra nuove immagini
     selectedFiles.forEach((file, index) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             const card = document.createElement('div');
             card.className = 'img-preview-card';
 
-            // Etichetta "Copertina" sulla prima foto
-            let badgeHtml = index === 0 ? '<div class="cover-badge">Copertina</div>' : '';
+            // Etichetta "Copertina" sulla prima foto se non ci sono foto vecchie
+            let isFirstOverall = (existingImages.length === 0 && index === 0);
+            let badgeHtml = isFirstOverall ? '<div class="cover-badge">Copertina</div>' : '';
 
             card.innerHTML = `
-                <img src="${e.target.result}" alt="Preview Foto">
+                <img src="${e.target.result}" alt="Preview Foto (Nuova)">
                 ${badgeHtml}
                 <button class="btn-remove-img" type="button" onclick="removeImage(${index})"><i class="fa-solid fa-xmark"></i></button>
             `;
@@ -101,6 +194,11 @@ function renderPreviews() {
         };
         reader.readAsDataURL(file);
     });
+}
+
+function removeExistingImage(index) {
+    existingImages.splice(index, 1);
+    renderPreviews();
 }
 
 function removeImage(index) {
@@ -135,8 +233,8 @@ async function saveProperty() {
         alert("Attenzione: Compila almeno Titolo, Zona e Prezzo per notta.");
         return;
     }
-    if (selectedFiles.length === 0) {
-        alert("Attenzione: Inserisci almeno una foto di copertina.");
+    if (selectedFiles.length === 0 && existingImages.length === 0) {
+        alert("Attenzione: Inserisci almeno una foto.");
         return;
     }
 
@@ -144,15 +242,21 @@ async function saveProperty() {
     setLoading(true);
 
     try {
+        let finalImageUrls = [...existingImages];
+
         // A. Carica Immagini su Firebase Storage
-        const imageUrls = await uploadImagesParallel(selectedFiles);
+        if (selectedFiles.length > 0) {
+            const newImageUrls = await uploadImagesParallel(selectedFiles);
+            finalImageUrls = [...finalImageUrls, ...newImageUrls];
+        }
 
         // B. Carica Video (se selezionato)
+        let finalVideoUrl = videoUrl;
         if (selectedVideoFile) {
             btnSaveBottom.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sto caricando il video... (ci vorrà un attimo)';
             const uploadedVideoUrl = await uploadVideo(selectedVideoFile);
             if (uploadedVideoUrl) {
-                videoUrl = uploadedVideoUrl; // Sovrascrive il link YT se c'è un file
+                finalVideoUrl = uploadedVideoUrl; // Sovrascrive il link YT se c'è un file o il vecchio video
             }
         }
 
@@ -174,17 +278,27 @@ async function saveProperty() {
             },
             description: description,
             services: services,
-            images: imageUrls, // Array di url stringa
-            coverImage: imageUrls[0], // Salvo direttamente la copertina
-            videoTour: videoUrl || '',
+            images: finalImageUrls, // Array di url stringa
+            coverImage: finalImageUrls.length > 0 ? finalImageUrls[0] : '',
             status: 'published', // Altre opzioni: 'draft'
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         };
 
-        // C. Salva su Firestore Collection 'properties'
-        await db.collection("properties").add(propertyData);
+        // Set video in property data
+        if (finalVideoUrl || !editMode) {
+            propertyData.videoTour = finalVideoUrl || '';
+        }
 
-        alert("Immobile pubblicato con SUCCESSO!");
+        // D. Salva su Firestore Collection 'properties'
+        if (editMode) {
+            await db.collection("properties").doc(editPropertyId).update(propertyData);
+            alert("Immobile aggiornato con SUCCESSO!");
+        } else {
+            propertyData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            await db.collection("properties").add(propertyData);
+            alert("Immobile pubblicato con SUCCESSO!");
+        }
+
         // Ritorna alla dashboard
         window.location.href = "dashboard.html";
 
@@ -226,12 +340,12 @@ function setLoading(isLoading) {
     if (isLoading) {
         btnSaveHeader.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvataggio...';
         btnSaveHeader.disabled = true;
-        btnSaveBottom.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sto caricando le foto... attendi';
+        btnSaveBottom.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sto caricando dati/foto... attendi';
         btnSaveBottom.disabled = true;
     } else {
-        btnSaveHeader.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Salva e Pubblica';
+        btnSaveHeader.innerHTML = editMode ? '<i class="fa-solid fa-cloud-arrow-up"></i> Aggiorna Immobile' : '<i class="fa-solid fa-cloud-arrow-up"></i> Salva e Pubblica';
         btnSaveHeader.disabled = false;
-        btnSaveBottom.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Salva Immobile nel Server';
+        btnSaveBottom.innerHTML = editMode ? '<i class="fa-solid fa-cloud-arrow-up"></i> Aggiorna Immobile nel Server' : '<i class="fa-solid fa-cloud-arrow-up"></i> Salva Immobile nel Server';
         btnSaveBottom.disabled = false;
     }
 }

@@ -126,7 +126,7 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
-        /* GALLERIA — Box nero senza raggio */
+        /* GALLERIA */
         .pd-gallery {
             max-width: 1400px;
             margin: -40px auto 0;
@@ -136,23 +136,171 @@
         }
 
         .pd-gallery .swiper {
-            height: 550px;
-            background: #111;
+            max-height: 75vh;
+            background: transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+        }
+
+        .pd-gallery .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
 
         .pd-gallery .swiper img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            max-height: 75vh;
+            object-fit: contain;
         }
 
         .pd-gallery .swiper-button-next,
         .pd-gallery .swiper-button-prev {
             color: var(--color-primary);
+            background: rgba(0, 0, 0, 0.4);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .pd-gallery .swiper-button-next:hover,
+        .pd-gallery .swiper-button-prev:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .pd-gallery .swiper-button-next::after,
+        .pd-gallery .swiper-button-prev::after {
+            font-size: 18px;
+            font-weight: bold;
         }
 
         .pd-gallery .swiper-pagination-bullet-active {
             background: var(--color-primary);
+        }
+
+        /* PHOTO COUNTER */
+        .pd-photo-counter {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            pointer-events: none;
+            backdrop-filter: blur(6px);
+        }
+
+        .pd-photo-counter i {
+            margin-right: 6px;
+            color: var(--color-primary);
+        }
+
+        /* FULLSCREEN LIGHTBOX */
+        .pd-lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pd-lightbox.active {
+            display: flex;
+        }
+
+        .pd-lightbox img {
+            max-width: 92vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            animation: lightboxFadeIn 0.3s ease;
+        }
+
+        @keyframes lightboxFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .pd-lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            color: #fff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .pd-lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .pd-lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .pd-lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .pd-lightbox-prev {
+            left: 20px;
+        }
+
+        .pd-lightbox-next {
+            right: 20px;
+        }
+
+        .pd-lightbox-counter {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
         }
 
         /* CORPO 3 COLONNE */
@@ -348,8 +496,23 @@
                 gap: 1.5rem;
             }
 
-            .pd-gallery .swiper {
-                height: 300px;
+            .pd-gallery .swiper,
+            .pd-gallery .swiper img {
+                max-height: 50vh;
+            }
+
+            .pd-lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .pd-lightbox-prev {
+                left: 10px;
+            }
+
+            .pd-lightbox-next {
+                right: 10px;
             }
 
             .pd-cta-buttons {
@@ -378,6 +541,10 @@
                     <button class="lang-btn active" data-lang="it">IT</button>
                     <span class="lang-divider">|</span>
                     <button class="lang-btn" data-lang="en">EN</button>
+                    <span class="lang-divider">|</span>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                    <span class="lang-divider">|</span>
+                    <button class="lang-btn" data-lang="es">ES</button>
                 </li>
             </ul>
             <button class="nav-toggle" aria-label="Menu">
@@ -419,6 +586,21 @@
             <div class="swiper-button-prev"></div>
             <div class="swiper-pagination"></div>
         </div>
+        <!-- Photo Counter -->
+        <div class="pd-photo-counter" id="pdPhotoCounter" style="display:none;">
+            <i class="fa-solid fa-camera"></i> <span id="pdCounterCurrent">1</span> / <span id="pdCounterTotal">1</span>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX FULLSCREEN -->
+    <div class="pd-lightbox" id="pdLightbox">
+        <button class="pd-lightbox-close" id="pdLightboxClose"><i class="fa-solid fa-xmark"></i></button>
+        <button class="pd-lightbox-nav pd-lightbox-prev" id="pdLightboxPrev"><i
+                class="fa-solid fa-chevron-left"></i></button>
+        <img id="pdLightboxImg" src="" alt="Fullscreen view">
+        <button class="pd-lightbox-nav pd-lightbox-next" id="pdLightboxNext"><i
+                class="fa-solid fa-chevron-right"></i></button>
+        <div class="pd-lightbox-counter" id="pdLightboxCounter">1 / 1</div>
     </div>
 
     <!-- CORPO 3 COLONNE -->
