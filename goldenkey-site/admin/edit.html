@@ -39,6 +39,9 @@
             <a href="requests.html" class="nav-item">
                 <i class="fa-solid fa-envelope"></i> Richieste
             </a>
+            <a href="landing.html" class="nav-item">
+                <i class="fa-solid fa-bullhorn"></i> Promo Landing
+            </a>
             <a href="settings.html" class="nav-item">
                 <i class="fa-solid fa-gear"></i> Impostazioni
             </a>
@@ -158,15 +161,11 @@
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h2 class="section-title" style="margin-bottom:0;"><i class="fa-solid fa-align-left"></i>
                         Descrizione Multilingua</h2>
-                    <button type="button" class="btn-save" id="btnAutoTranslate"
-                        style="background:#bfa15f; padding: 8px 15px; font-size: 0.9rem;">
-                        <i class="fa-solid fa-language"></i> Auto-Traduci da IT
-                    </button>
                 </div>
 
-                <p style="font-size: 0.9rem; margin-bottom: 20px; color: #666;">Scrivi la descrizione in Italiano e usa
-                    il pulsante per generare una bozza automatica nelle altre lingue. Rileggi i testi generati prima di
-                    salvare.</p>
+                <p style="font-size: 0.9rem; margin-bottom: 20px; color: #666;">Inserisci o incolla manualmente la
+                    descrizione in ciascuna di queste lingue. Ciascuna lingua verrà mostrata sul sito in base alla
+                    preferenza dell'utente.</p>
 
                 <div class="form-group full-width">
                     <label class="form-label" for="propDescriptionIt">Descrizione (Italiano) 🇮🇹</label>
@@ -190,6 +189,19 @@
                     <label class="form-label" for="propDescriptionEs">Descrizione (Spagnolo) 🇪🇸</label>
                     <textarea id="propDescriptionEs" class="form-control" rows="3"
                         placeholder="Describa los aspectos más destacados de la propiedad, ubicación..."></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label" for="propDescriptionDe">Descrizione (Tedesco) 🇩🇪</label>
+                    <textarea id="propDescriptionDe" class="form-control" rows="3"
+                        placeholder="Beschreiben Sie die Highlights der Immobilie, die Lage..."></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label" for="propDescriptionAr" style="text-align: right;" dir="rtl">الوصف
+                        (العربية) 🇦🇪</label>
+                    <textarea id="propDescriptionAr" class="form-control" rows="3" dir="rtl"
+                        placeholder="صف أهم مميزات العقار، موقعه..."></textarea>
                 </div>
             </div>
 

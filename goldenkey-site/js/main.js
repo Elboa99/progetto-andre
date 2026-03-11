@@ -77,6 +77,7 @@ function setLanguage(lang) {
     const t = window.translations[lang];
     localStorage.setItem('gk_language', lang);
     document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
     // Update buttons UI
     document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -535,20 +536,20 @@ function initReviewsCarousel() {
 
     // No auto-advance — user navigates manually with arrows/dots
 
-    
+
     // --- Touch Swipe Support ---
     let touchStartX = 0;
     let touchCurrentX = 0;
     let isSwiping = false;
 
-    track.addEventListener('touchstart', function(e) {
+    track.addEventListener('touchstart', function (e) {
         touchStartX = e.touches[0].clientX;
         touchCurrentX = touchStartX;
         isSwiping = true;
         track.style.transition = 'none';
     }, { passive: true });
 
-    track.addEventListener('touchmove', function(e) {
+    track.addEventListener('touchmove', function (e) {
         if (!isSwiping) return;
         touchCurrentX = e.touches[0].clientX;
         var diff = touchCurrentX - touchStartX;
@@ -558,7 +559,7 @@ function initReviewsCarousel() {
         track.style.transform = 'translateX(' + (-(baseOffset - diff)) + 'px)';
     }, { passive: true });
 
-    track.addEventListener('touchend', function() {
+    track.addEventListener('touchend', function () {
         if (!isSwiping) return;
         isSwiping = false;
         var diff = touchCurrentX - touchStartX;

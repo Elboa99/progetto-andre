@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Promo Landing - GoldenKey</title>
+    <!-- Fonts -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:wght@200..800&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Admin Panel Styles -->
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--admin-text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--admin-border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .btn-save {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-save:hover {
+            background: #112511;
+        }
+
+        .help-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid var(--color-accent);
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/images/logo-gk.png" alt="GoldenKey"
+                onerror="this.src='https://via.placeholder.com/150x50/1a361a/ffffff?text=GoldenKey'">
+            <p>Admin Workspace</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i> Dashboard
+            </a>
+            <a href="properties.html" class="nav-item">
+                <i class="fa-solid fa-key"></i> Immobili
+            </a>
+            <a href="requests.html" class="nav-item">
+                <i class="fa-solid fa-envelope"></i> Richieste
+            </a>
+            <a href="landing.html" class="nav-item active">
+                <i class="fa-solid fa-bullhorn"></i> Promo Landing
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i> Impostazioni
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="btn-logout" onclick="logoutAdmin(event)">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Esci
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <h1 class="page-title">Promo Landing Page</h1>
+            <button class="btn-save" id="btnSaveHeader">
+                <i class="fa-solid fa-floppy-disk"></i> Salva Promo
+            </button>
+        </div>
+
+        <div class="help-text">
+            <strong>Come funziona:</strong> Compilando questi campi, i testi principali (sulla copertina della home page
+            promozionale) verranno sovrascritti istantaneamente con l'offerta che decidi tu.<br>
+            <span style="color:var(--color-primary); font-weight:bold;">Per rimettere il testo di default (Siamo la
+                soluzione anti-morosità...), ti basta SVUOTARE tutti i campi e premere Salva.</span>
+        </div>
+
+        <div class="form-section">
+            <h2 class="panel-title" style="margin-bottom: 20px;">Testi dell'Offerta</h2>
+
+            <div class="form-group">
+                <label class="form-label" for="promoTitle">Titolo Principale (H1)</label>
+                <input type="text" id="promoTitle" class="form-control" placeholder="Es. PROMO ESTATE INCLUSA">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="promoSubtitle">Sottotitolo Descrittivo</label>
+                <textarea id="promoSubtitle" class="form-control" rows="3"
+                    placeholder="Es. Affidaci il tuo immobile entro fine mese e ottieni il primo mese di gestione gratuita."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="promoButtonText">Testo del Pulsante (Call to Action)</label>
+                <input type="text" id="promoButtonText" class="form-control" placeholder="Es. Ottieni la Promozione →">
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+            <button class="btn-save" id="btnSaveBottom">
+                <i class="fa-solid fa-floppy-disk"></i> Salva Modifiche
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+    <!-- Configurazione Database & Auth -->
+    <script src="/js/firebase-config.js"></script>
+    <script src="/admin/js/auth.js"></script>
+
+    <!-- Landing Logic -->
+    <script src="/admin/js/landing.js"></script>
+
+    <!-- Guardia di sicurezza -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+        });
+    </script>
+</body>
+
+</html>

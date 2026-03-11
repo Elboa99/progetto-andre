@@ -66,6 +66,8 @@ async function loadExistingProperty(id) {
             document.getElementById('propDescriptionEn').value = data.description.en || '';
             document.getElementById('propDescriptionFr').value = data.description.fr || '';
             document.getElementById('propDescriptionEs').value = data.description.es || '';
+            document.getElementById('propDescriptionDe').value = data.description.de || '';
+            document.getElementById('propDescriptionAr').value = data.description.ar || '';
         } else {
             // Retrocompatibilità: se la descrizione è una stringa semplice, la inseriamo nel campo italiano
             document.getElementById('propDescriptionIt').value = data.description || '';
@@ -232,6 +234,8 @@ async function saveProperty() {
     const descriptionEn = document.getElementById('propDescriptionEn').value.trim();
     const descriptionFr = document.getElementById('propDescriptionFr').value.trim();
     const descriptionEs = document.getElementById('propDescriptionEs').value.trim();
+    const descriptionDe = document.getElementById('propDescriptionDe').value.trim();
+    const descriptionAr = document.getElementById('propDescriptionAr').value.trim();
     const videoUrl = document.getElementById('propVideoTour').value.trim();
 
     // Raccogli servizi (Checkboxes)
@@ -292,7 +296,9 @@ async function saveProperty() {
                 it: descriptionIt,
                 en: descriptionEn,
                 fr: descriptionFr,
-                es: descriptionEs
+                es: descriptionEs,
+                de: descriptionDe,
+                ar: descriptionAr
             },
             services: services,
             images: finalImageUrls, // Array di url stringa
@@ -367,64 +373,9 @@ function setLoading(isLoading) {
     }
 }
 
-// Funzione di Auto-Traduzione usando MyMemory API
-async function autoTranslateDescription() {
-    const textIt = document.getElementById('propDescriptionIt').value.trim();
-    if (!textIt) {
-        alert("Inserisci prima la descrizione in Italiano per poterla tradurre.");
-        return;
-    }
-
-    const btnTranslate = document.getElementById('btnAutoTranslate');
-    const originalBtnInner = btnTranslate.innerHTML;
-    btnTranslate.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Traduzione in corso...';
-    btnTranslate.disabled = true;
-
-    try {
-        // Funzione helper per chiamare MyMemory
-        const translate = async (text, langPair) => {
-            const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`;
-            const res = await fetch(url);
-            const data = await res.json();
-            if (data.responseStatus === 200) {
-                return data.responseData.translatedText;
-            } else {
-                console.warn(`Errore MyMemory API per ${langPair}:`, data);
-                return text; // Fallback al testo originale in caso di errore
-            }
-        };
-
-        // Traduci in parallelo nelle 3 lingue principali
-        const [enText, frText, esText] = await Promise.all([
-            translate(textIt, 'it|en'),
-            translate(textIt, 'it|fr'),
-            translate(textIt, 'it|es')
-        ]);
-
-        document.getElementById('propDescriptionEn').value = enText;
-        document.getElementById('propDescriptionFr').value = frText;
-        document.getElementById('propDescriptionEs').value = esText;
-
-        alert("Traduzione automatica completata! Rileggi le descrizioni prima di salvare.");
-
-    } catch (err) {
-        console.error("Errore durante l'auto-traduzione:", err);
-        alert("Si è verificato un errore durante la traduzione. Riprova più tardi.");
-    } finally {
-        btnTranslate.innerHTML = originalBtnInner;
-        btnTranslate.disabled = false;
-    }
-}
-
 // Event Listeners Buttons Salva
 btnSaveHeader.addEventListener('click', saveProperty);
 btnSaveBottom.addEventListener('click', saveProperty);
-
-// Event Listener Auto-Translate
-const btnAutoTranslate = document.getElementById('btnAutoTranslate');
-if (btnAutoTranslate) {
-    btnAutoTranslate.addEventListener('click', autoTranslateDescription);
-}
 
 // Nascondo/Pulisco le immagini placeholder all'avvio reale in modo pulito
 imagePreviewContainer.innerHTML = '';

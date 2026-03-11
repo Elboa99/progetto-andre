@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Annunci - GoldenKey</title>
+    <!-- Fonts -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:wght@200..800&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Admin Panel Styles -->
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--admin-text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--admin-border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .btn-save {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-save:hover {
+            background: #112511;
+        }
+
+        .help-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #bfa15f;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Toggle Switch CSS */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--color-primary);
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px var(--color-primary);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: #f4f7f4;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e0e8e0;
+        }
+
+        .status-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/images/logo-gk.png" alt="GoldenKey"
+                onerror="this.src='https://via.placeholder.com/150x50/1a361a/ffffff?text=GoldenKey'">
+            <p>Admin Workspace</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i> Dashboard
+            </a>
+            <a href="properties.html" class="nav-item">
+                <i class="fa-solid fa-key"></i> Immobili
+            </a>
+            <a href="requests.html" class="nav-item">
+                <i class="fa-solid fa-envelope"></i> Richieste
+            </a>
+            <a href="landing.html" class="nav-item">
+                <i class="fa-solid fa-bullhorn"></i> Promo Landing
+            </a>
+            <a href="banner.html" class="nav-item active">
+                <i class="fa-solid fa-flag"></i> Banner Sito
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i> Impostazioni
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="btn-logout" onclick="logoutAdmin(event)">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Esci
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <h1 class="page-title">Banner Annunci</h1>
+            <button class="btn-save" id="btnSaveHeader">
+                <i class="fa-solid fa-floppy-disk"></i> Salva Banner
+            </button>
+        </div>
+
+        <div class="help-text">
+            <strong>Che cos'è:</strong> L'interruttore sottostante ti permette di accendere una striscia fissa in cima
+            al sito web (Sopra il menu).
+            È utilissima per comunicare in modo non invadente informazioni importanti o offerte flash.<br>
+            <span style="color:var(--color-primary); font-weight:bold;">Ricordati di cliccare Salva dopo aver modificato
+                l'interruttore o i testi.</span>
+        </div>
+
+        <div class="form-section">
+
+            <div class="status-container">
+                <label class="switch">
+                    <input type="checkbox" id="bannerActive">
+                    <span class="slider"></span>
+                </label>
+                <span class="status-text" id="statusLabel" style="color:#666;">Banner disattivato (Spegnimento
+                    Globale)</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="bannerText">Testo dell'Annuncio (Es. "Offerta a Tempo: ...")</label>
+                <input type="text" id="bannerText" class="form-control"
+                    placeholder="Es. 🔥 Affidaci il tuo immobile: Gestione gratuita per il 1° mese!">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="bannerLink">Link (Opzionale - Dove manda al click?)</label>
+                <input type="text" id="bannerLink" class="form-control"
+                    placeholder="Es. /landing.html (oppure lascia vuoto)">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="bannerLinkText">Testo del Click (Es. "Scopri di più →")</label>
+                <input type="text" id="bannerLinkText" class="form-control" placeholder="Es. Scopri i dettagli →">
+            </div>
+
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+            <button class="btn-save" id="btnSaveBottom">
+                <i class="fa-solid fa-floppy-disk"></i> Salva Modifiche
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+    <!-- Configurazione Database & Auth -->
+    <script src="/js/firebase-config.js"></script>
+    <script src="/admin/js/auth.js"></script>
+
+    <!-- Banner Logic -->
+    <script src="/admin/js/banner.js"></script>
+
+    <!-- Guardia di sicurezza -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+        });
+    </script>
+</body>
+
+</html>

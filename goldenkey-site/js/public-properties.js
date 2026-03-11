@@ -90,7 +90,7 @@ function populateZoneDropdown(zonesSet) {
     if (!zoneSelect) return;
 
     // Mantieni l'opzione "Tutte le zone" e rimuovi il resto
-    zoneSelect.innerHTML = '<option value="">Tutte le zone</option>';
+    zoneSelect.innerHTML = '<option value="" data-i18n="prop-search-zone-all">Tutte le zone</option>';
 
     // Ordina alfabeticamente
     const sortedZones = Array.from(zonesSet).sort();
@@ -108,7 +108,7 @@ function populateTypeDropdown(typesSet) {
     if (!typeSelect) return;
 
     // Mantieni l'opzione "Tutti i tipi"
-    typeSelect.innerHTML = '<option value="">Tutti i tipi</option>';
+    typeSelect.innerHTML = '<option value="" data-i18n="prop-search-type-all">Tutti i tipi</option>';
 
     // Ordina alfabeticamente
     const sortedTypes = Array.from(typesSet).sort();
@@ -182,7 +182,13 @@ function renderPropertiesCardList(propertiesToRender) {
         const rooms = data.specs?.rooms || 0;
         const baths = data.specs?.baths || 0;
         const area = data.specs?.area || 0;
-        const description = data.description || '';
+        let description = '';
+        if (typeof data.description === 'object' && data.description !== null) {
+            const currentLang = localStorage.getItem('gk_language') || 'it';
+            description = data.description[currentLang] || data.description['it'] || '';
+        } else {
+            description = data.description || '';
+        }
 
         const shortDesc = description.length > 150 ? description.substring(0, 150) + '...' : description;
 
